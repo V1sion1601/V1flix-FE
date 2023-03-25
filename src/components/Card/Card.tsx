@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { CiPlay1 } from "react-icons/ci";
 import Details from "./Details";
-import { IImages, ISeries } from "../../../server/interface";
+import { IImages, ISeries } from "../../interface";
 const Card: React.FC<ISeries | any> = ({
   id,
   title,

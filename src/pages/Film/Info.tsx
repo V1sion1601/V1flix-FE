@@ -1,5 +1,5 @@
 import React from "react";
-import { IImages, ISeries } from "../../../server/interface";
+import { IImages, ISeries } from "../../interface";
 
 const Info: React.FC<ISeries> = ({
   id,

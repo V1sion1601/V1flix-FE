@@ -10,7 +10,7 @@ import { IReducer } from "../../interface";
 import { reducer } from "./reducer";
 //Data
 import { listNavMenu } from "./data";
-import { ISeries } from "../../../server/interface";
+import { ISeries } from "../../interface";
 import useSearchSeries from "./hook";
 //Context
 import { ThemeContext } from "../../context/ThemeContext";

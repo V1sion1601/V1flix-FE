@@ -12,7 +12,7 @@ import { IReducer } from "../../interface";
 //Data
 import { listNavMenu } from "./data";
 import useSearchSeries from "./hook";
-import { ISeries } from "../../../server/interface";
+import { ISeries } from "../../interface";
 //Context
 import { ThemeContext } from "../../context/ThemeContext";
 const MobileHeader: React.FC = () => {

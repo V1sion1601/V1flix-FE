@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 //Interface
-import { ISeries } from "../../../server/interface";
+import { ISeries } from "../../interface";
 //Components
 import Card from "../../components/Card/Card";
 import TopAnimeCard from "../../components/Card/TopAnimeCard";
