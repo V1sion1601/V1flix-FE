@@ -1,7 +1,7 @@
 import React from "react";
 import Details from "./Details";
 import { FiEye } from "react-icons/fi";
-import { ISeries } from "../../../server/interface";
+import { ISeries } from "../../interface";
 const TopAnimeCard: React.FC<ISeries | any> = ({
   id,
   title,

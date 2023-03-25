@@ -10,7 +10,7 @@ import ReactPlayer from "react-player";
 import { Trending } from "../../interface";
 import { listTrending } from "./data";
 //interface
-import { IEpisodes, ISeries } from "../../../server/interface";
+import { IEpisodes, ISeries } from "../../interface";
 
 const Film: React.FC<any> = () => {
   const { id, epNum = "1" } = useParams();

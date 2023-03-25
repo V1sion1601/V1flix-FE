@@ -1,4 +1,4 @@
-import { ISeries } from "../../../server/interface";
+import { ISeries } from "../../interface";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
