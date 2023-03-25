@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 //data
 import { filters } from "./data";
 import axios from "axios";
-import { ISeries } from "../../../server/interface";
+import { ISeries } from "../../interface";
 //components
 import Card from "../../components/Card/Card";
 import TopAnimeCard from "../../components/Card/TopAnimeCard";
