@@ -5,17 +5,21 @@ import TrendingCard from "./TrendingCard";
 //lib
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/youtube";
 //data
 import { Trending } from "../../interface";
 import { listTrending } from "./data";
 //interface
 import { IEpisodes, ISeries } from "../../interface";
+import { slugifyString } from "../../utils/HandleString";
 
 const Film: React.FC<any> = () => {
-  const { id, epNum = "1" } = useParams();
+  const params = new URLSearchParams(window.location.href.split("?")[1]);
+  const titleName = params.get("title") || "";
+  const epNum = params.get("ep") || "1";
+
+  console.log(params.get("title"));
   const [film, setFilm] = useState<ISeries | any>(() => {
-    console.log("state");
     return {
       id: 0,
       type: "TV",
@@ -36,7 +40,7 @@ const Film: React.FC<any> = () => {
     const fetchData = async () => {
       //getting api (problem for each episode is clicked)
       const response = await axios.get(
-        `${import.meta.env.VITE_USER_URL}/series/film/${id}`,
+        `${import.meta.env.VITE_USER_URL}/series/film/${titleName}`,
         {
           signal: controller?.signal,
         }
@@ -45,15 +49,16 @@ const Film: React.FC<any> = () => {
       //getting current ep
       response.data.series.episodes.length > 0 &&
         setCurrentEp(
-          response.data.series.episodes.find((episode: IEpisodes) => {
-            return episode.ep_num === parseInt(epNum);
-          })
+          response.data.series.episodes.find(
+            (episode: IEpisodes) => episode.ep_num === parseInt(epNum)
+          )
         );
+
       document.title = `${response.data.series.title} - ${epNum}`;
     };
     fetchData();
     return () => controller?.abort();
-  }, [id, epNum]);
+  }, [titleName, epNum]);
 
   return (
     <section className="px-8 text-white pt-5 space-y-5">
@@ -68,17 +73,16 @@ const Film: React.FC<any> = () => {
           className="basis-4/5 flex flex-col gap-y-6"
         >
           <aside aria-label="video">
-            {film.episodes.length > 0 ? (
+            {currentEp ? (
               <>
                 <ReactPlayer
                   url={[currentEp?.source || ""]}
                   width="100%"
                   controls={true}
                 />
-                {console.log(currentEp)}
               </>
             ) : (
-              <div>Coming soon</div>
+              <div>This episode doesn't exist</div>
             )}
           </aside>
 
@@ -90,10 +94,11 @@ const Film: React.FC<any> = () => {
                   <a
                     key={episode.id}
                     className="rounded-md "
-                    href={`/watch/${id}/ep/${episode.ep_num}`}
+                    href={`/watch?title=${slugifyString(titleName)}&ep=${
+                      episode.ep_num
+                    }`}
                   >
                     <li
-                      key={episode.id}
                       className={`${
                         episode.ep_num === parseInt(epNum)
                           ? "bg-secondColor"

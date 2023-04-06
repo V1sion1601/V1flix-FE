@@ -1,22 +1,20 @@
 import React, { useState, useContext } from "react";
 //lib
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 //components
 import { Form, Input } from "../../components/Form/Form";
 import { CiDark, CiLight } from "react-icons/ci";
 //context
 import { ThemeContext } from "../../context/ThemeContext";
-import { UserContext } from "../../context/UserContext";
+import { account } from "../../utils/Storage";
 
 let render = 0;
 const Login: React.FC = () => {
   document.title = "Login";
   const [loading, setLoading] = useState<boolean>(false);
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { saveUser } = useContext(UserContext);
-  const navigate = useNavigate();
   console.log("re-render: " + render++);
 
   //sleep function
@@ -32,10 +30,11 @@ const Login: React.FC = () => {
     if (response.data.status === "failed") {
       alert("Account isn't right");
     } else {
-      const { username, id } = data;
+      const { username } = data;
+      console.log(username);
       alert("Account is right");
-      saveUser({ username, id });
-      navigate("/");
+      account.set("username", username);
+      window.location.href = "/";
     }
     setLoading(false);
   };

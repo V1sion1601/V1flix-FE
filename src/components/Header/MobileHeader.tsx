@@ -15,6 +15,7 @@ import useSearchSeries from "./hook";
 import { ISeries } from "../../interface";
 //Context
 import { ThemeContext } from "../../context/ThemeContext";
+import { slugifyString } from "../../utils/HandleString";
 const MobileHeader: React.FC = () => {
   const [subMenu, setSubMenu] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState<string>(() => {
@@ -102,7 +103,9 @@ const MobileHeader: React.FC = () => {
                       >
                         <a
                           className="hover:text-secondColor"
-                          href={`/watch/${item.id}`}
+                          href={`/watch?title=${slugifyString(
+                            item.title
+                          )}&ep=1`}
                         >
                           {item.title}
                         </a>

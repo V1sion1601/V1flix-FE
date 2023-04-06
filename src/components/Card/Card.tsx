@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { CiPlay1 } from "react-icons/ci";
 import Details from "./Details";
 import { IImages, ISeries } from "../../interface";
+import { slugifyString } from "../../utils/HandleString";
 const Card: React.FC<ISeries | any> = ({
   id,
   title,
@@ -16,7 +17,7 @@ const Card: React.FC<ISeries | any> = ({
       <div className="relative group">
         {images.length > 0 && (
           <>
-            <Link to={`/watch/${id}`}>
+            <Link to={`/watch?title=${slugifyString(title)}&ep=1`}>
               <img
                 className=" group-hover:opacity-60 cursor-pointer w-full rounded-md"
                 src={
@@ -36,8 +37,6 @@ const Card: React.FC<ISeries | any> = ({
         </div>
       </div>
       <div className="flex flex-row items-center justify-between bg-mainColor px-2 py-0.5 mb-3 rounded-b-md">
-        {/* //Will fix ongoing and new ep soon */}
-
         <Details newep={total_episodes} type={type} status={status} />
       </div>
       <h3 className="lg:text-xl text-lg w-full line-clamp-2">{title}</h3>

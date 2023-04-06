@@ -36,8 +36,7 @@ const App: React.FC = () => {
               <Route path="/profile/:username" element={<Profile />} />
 
               {/* Film Routes */}
-              <Route path="/watch/:id" element={<Film />} />
-              <Route path="/watch/:id/ep/:epNum" element={<Film />} />
+              <Route path="/watch/*" element={<Film />} />
               {/* Search Routes */}
               <Route path="/search" element={<Search />} />
               <Route path="/search/:keyword" element={<Search />} />

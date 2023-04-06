@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 //lib
 import { useParams } from "react-router-dom";
-import { HiOutlineFilter } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 //data
 import { filters } from "./data";

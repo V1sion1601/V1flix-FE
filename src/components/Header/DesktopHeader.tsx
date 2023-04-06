@@ -14,7 +14,9 @@ import { ISeries } from "../../interface";
 import useSearchSeries from "./hook";
 //Context
 import { ThemeContext } from "../../context/ThemeContext";
-import { UserContext } from "../../context/UserContext";
+import { account } from "../../utils/Storage";
+import { slugifyString } from "../../utils/HandleString";
+// import { UserContext } from "../../context/UserContext";
 
 const initState: Hover = {
   isLoading: false,
@@ -30,8 +32,6 @@ const DesktopHeader: React.FC = () => {
   const [userMenu, setUserMenu] = useState(false);
   const result = useSearchSeries(searchInput);
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { getUser, removeUser } = useContext(UserContext);
-  const user = getUser();
 
   return (
     <>
@@ -123,7 +123,9 @@ const DesktopHeader: React.FC = () => {
                         >
                           <a
                             className="hover:text-secondColor"
-                            href={`/watch/${item.id}`}
+                            href={`/watch?title=${slugifyString(
+                              item.title
+                            )}&ep=1`}
                           >
                             {item.title}
                           </a>
@@ -148,7 +150,7 @@ const DesktopHeader: React.FC = () => {
           <aside
             aria-label="sign-in"
             className={`w-1/3 flex-row flex gap-3 ${
-              !user ? "justify-center" : "justify-between"
+              !account.get("username") ? "justify-center" : "justify-between"
             } `}
           >
             <div
@@ -162,7 +164,7 @@ const DesktopHeader: React.FC = () => {
             >
               {theme === "dark" ? <CiDark size={20} /> : <CiLight size={20} />}
             </div>
-            {user === "" ? (
+            {!account.get("username") ? (
               <Link
                 to="/login"
                 className="flex justify-center items-center bg-transparent outline outline-offset-2 outline-outColor py-2 rounded-lg px-2 w-full"
@@ -188,15 +190,16 @@ const DesktopHeader: React.FC = () => {
                     <ul className="bg-mainColor -ml-4 rounded-md p-2 ">
                       <li className="cursor-pointer p-2 hover:bg-secondColor hover:rounded-md">
                         <Link
-                          to={`/profile/${user.username}`}
+                          to={`/profile/${account.get("username")}`}
                           className="text-center"
                         >
-                          {user.username}
+                          {account.get("username")}
                         </Link>
                       </li>
                       <li
                         onClick={() => {
-                          removeUser();
+                          account.remove();
+                          window.location.reload();
                         }}
                         className="cursor-pointer p-2 hover:bg-secondColor hover:rounded-md"
                       >

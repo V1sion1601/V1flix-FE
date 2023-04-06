@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "../../assets/default_avatar.jpg";
 import Banner from "../../assets/default_banner.png";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import axios from "axios";
 const Profile = () => {
   const [account, setAccount] = useState<any>({});
   const { username } = useParams();
-  console.log(username);
+
   useEffect(() => {
     const controller = new AbortController();
     const fetchData = async () => {
