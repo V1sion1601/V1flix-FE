@@ -1,7 +1,7 @@
 //localStorage
 const createUserSetting = (key: string) => {
-  const string = localStorage.getItem(key) || "";
-  const store = JSON.parse(string) ?? {};
+  const getUser = localStorage.getItem(key);
+  const store = getUser ? JSON.parse(getUser) : {};
   console.log(store);
   const save = () => {
     localStorage.setItem(key, JSON.stringify(store));
