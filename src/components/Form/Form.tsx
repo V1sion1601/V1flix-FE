@@ -80,17 +80,22 @@ export const Input: React.FC<Input> = ({
   );
 };
 
-// export const Select: React.FC<Select> = ({
-//   register,
-//   options,
-//   name,
-//   ...rest
-// }) => {
-//   return (
-//     <select {...register(name)} {...rest}>
-//       {options.map((value: any) => (
-//         <option value={value}>{value}</option>
-//       ))}
-//     </select>
-//   );
-// };
+export const Select: React.FC<Select | any> = ({
+  register,
+  options,
+  name,
+  rules,
+  className,
+  optionsClass,
+  ...rest
+}) => {
+  return (
+    <select className={className} {...register(name, rules)} {...rest}>
+      {options.map((value: any) => (
+        <option className={optionsClass} value={value}>
+          {value}
+        </option>
+      ))}
+    </select>
+  );
+};

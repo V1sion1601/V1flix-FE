@@ -12,12 +12,13 @@ const Card: React.FC<ISeries | any> = ({
   total_episodes,
   status,
 }) => {
+  console.log(total_episodes);
   return (
     <div className="flex flex-col w-full">
       <div className="relative group">
         {images.length > 0 && (
           <>
-            <Link to={`/watch?title=${slugifyString(title)}&ep=1`}>
+            <a href={`/watch?title=${slugifyString(title)}&ep=1`}>
               <img
                 className=" group-hover:opacity-60 cursor-pointer w-full rounded-md"
                 src={
@@ -28,7 +29,7 @@ const Card: React.FC<ISeries | any> = ({
                 alt={title}
                 loading="lazy"
               />
-            </Link>
+            </a>
           </>
         )}
 

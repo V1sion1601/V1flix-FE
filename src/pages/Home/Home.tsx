@@ -64,13 +64,13 @@ const Home: React.FC = () => {
                   <p className="lg:text-2xl text-sm lg:w-full w-3/4 lg:line-clamp-3 text-white line-clamp-2 font-light lg:text-opacity-60 text-opacity-90">
                     {banner.description}
                   </p>
-                  <Link
-                    to={`/watch/${banner.title.toLowerCase()}/ep/1`}
+                  <a
+                    href={`/watch/${banner.title.toLowerCase()}/ep/1`}
                     className="bg-secondColor text-white hover:bg-opacity-70 lg:px-10 px-5 font-bold lg:py-4 py-2 lg:text-2xl text-base rounded-md flex justify-center items-center gap-x-3"
                   >
                     <FaPlay />
                     PLAY NOW
-                  </Link>
+                  </a>
                 </aside>
               </div>
             </SwiperSlide>

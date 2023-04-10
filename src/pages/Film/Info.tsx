@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+//interfaces
 import { IImages, ISeries } from "../../interface";
+//components
 import UserFilmSetting from "./UserFilmSetting";
+//others
+import { account } from "../../utils/Storage";
 
 const Info: React.FC<ISeries> = ({
   id,
@@ -14,9 +18,25 @@ const Info: React.FC<ISeries> = ({
   alt_title,
 }) => {
   const [settingMenu, setSettingMenu] = useState<boolean>(false);
+  //add and remove scroll-bar
+  if (settingMenu) {
+    document.body.classList.add("overflow-hidden");
+    window.scrollTo(0, 0);
+  } else {
+    document.body.classList.remove("overflow-hidden");
+  }
+
   return (
     <>
-      {settingMenu && <UserFilmSetting setMenu={setSettingMenu} />}
+      {settingMenu && (
+        <UserFilmSetting
+          images={images}
+          title={title}
+          status={status}
+          id={id}
+          setMenu={setSettingMenu}
+        />
+      )}
       <main className="flex lg:w-5/6 w-full gap-x-4 bg-opacityText p-4 rounded-lg">
         <section aria-label="image" className="basis-1/5">
           <img
@@ -30,12 +50,14 @@ const Info: React.FC<ISeries> = ({
         <section aria-label="content" className="basis-4/5 space-y-4 h-full">
           <div className="flex justify-between">
             <h3 className="lg:text-4xl text-xl font-bold">{title}</h3>
-            <button
-              onClick={() => setSettingMenu(true)}
-              className="bg-secondColor hover:bg-secondColorBrighter p-2 rounded-md lg:text-xl text-md font-bold"
-            >
-              Settings
-            </button>
+            {account.get("username") && (
+              <button
+                onClick={() => setSettingMenu(true)}
+                className="bg-secondColor hover:bg-secondColorBrighter p-2 rounded-md lg:text-xl text-md font-bold"
+              >
+                Settings
+              </button>
+            )}
           </div>
           <h4 className="font-extralight">{alt_title || title}</h4>
 

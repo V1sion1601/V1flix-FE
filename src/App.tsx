@@ -3,6 +3,7 @@ import { Suspense, lazy, useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BaseLayout from "./layout/BaseLayout";
 import { ThemeContext } from "./context/ThemeContext";
+import { account } from "./utils/Storage";
 
 //Pages
 const Error: React.FC = lazy(() => import("./pages/Error/Error"));
@@ -31,7 +32,9 @@ const App: React.FC = () => {
 
               <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/login" element={<Login />} />
+              {!account.get("username") && (
+                <Route path="/login" element={<Login />} />
+              )}
               <Route path="/register" element={<Register />} />
               <Route path="/profile/:username" element={<Profile />} />
 

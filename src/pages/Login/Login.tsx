@@ -30,10 +30,13 @@ const Login: React.FC = () => {
     if (response.data.status === "failed") {
       alert("Account isn't right");
     } else {
+      console.log(response.data);
       const { username } = data;
-      console.log(username);
+
       alert("Account is right");
       account.set("username", username);
+      account.set("idUser", response.data.id);
+
       window.location.href = "/";
     }
     setLoading(false);
