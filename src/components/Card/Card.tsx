@@ -12,7 +12,6 @@ const Card: React.FC<ISeries | any> = ({
   total_episodes,
   status,
 }) => {
-  console.log(total_episodes);
   return (
     <div className="flex flex-col w-full">
       <div className="relative group">

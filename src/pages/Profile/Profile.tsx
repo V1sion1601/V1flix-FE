@@ -1,16 +1,33 @@
 import { useEffect, useState } from "react";
+//lib
+import axios from "axios";
+import { useParams } from "react-router-dom";
+//components
 import Avatar from "../../assets/default_avatar.jpg";
 import Banner from "../../assets/default_banner.png";
-import { useParams } from "react-router-dom";
-import axios from "axios";
 import Card from "../../components/Card/Card";
+import { MdOutlineAddToQueue } from "react-icons/md";
+//localStorage
 import { account } from "../../utils/Storage";
+import UserSetting from "./UserSetting";
 const Profile = () => {
+  const { username } = useParams();
   const [user, setUser] = useState<any>({});
   const [list, setList] = useState<any>([]);
-
-  const { username } = useParams();
-
+  const [menu, setMenu] = useState({
+    show: false,
+    images: [],
+    "series.title": "",
+    "series.status": "",
+    status: "",
+    seriesId: 0,
+  });
+  if (menu.show) {
+    document.body.classList.add("overflow-hidden");
+    window.scrollTo(0, 0);
+  } else {
+    document.body.classList.remove("overflow-hidden");
+  }
   useEffect(() => {
     const controller = new AbortController();
     const fetchData = async () => {
@@ -21,7 +38,7 @@ const Profile = () => {
           signal: controller.signal,
         }
       );
-      console.log(response.data);
+
       //fetch list
       if (response.data.status === "succeed") {
         setUser(response.data.account);
@@ -33,7 +50,7 @@ const Profile = () => {
             signal: controller.signal,
           }
         );
-        console.log(responseList.data.data);
+
         setList(responseList.data.data);
       }
     };
@@ -45,6 +62,16 @@ const Profile = () => {
 
   return (
     <>
+      {menu.show && (
+        <UserSetting
+          images={menu.images}
+          title={menu["series.title"]}
+          status={menu.status}
+          id={menu.seriesId}
+          filmStatus={menu["series.status"]}
+          setMenu={setMenu}
+        />
+      )}
       {user.id ? (
         <main className="h-screen  py-2 text-white mb-[20rem]">
           <section aria-label="banner" className="h-[18rem]">
@@ -64,7 +91,7 @@ const Profile = () => {
                   className="rounded-full w-40 h-40 -mt-[4.5rem] shadow-md border-2 border-secondColor"
                 />
               </div>
-              <div aria-label="detail-account">
+              <div aria-label="detail-account" className="w-full">
                 <h1 className="pt-5 text-4xl font-bold">{user.username}</h1>
                 <aside className=" w-full mt-8">
                   <nav className="flex gap-x-5 w-fit bg-mainColor font-bold rounded-sm">
@@ -74,31 +101,42 @@ const Profile = () => {
                     <div className="p-2.5">Completed</div>
                   </nav>
                 </aside>
-                <aside className="grid grid-cols-4 text-white gap-4 w-full mt-5">
-                  {list.map((item: any) => (
-                    <div key={item["series.id"]} className="w-56">
-                      <Card
-                        key={item["series.id"]}
-                        title={item["series.title"]}
-                        images={[{ name: item.name, type: item.type }]}
-                        type={item["series.type"]}
-                        total_episodes={item["series.total_episodes"]}
-                        status={item["status"]}
-                      />
-                      {account.get("idUser") === user.id && (
-                        <button className="mt-2 font-bold rounded-md text-white bg-secondColor hover:bg-secondColorBrighter py-1.5 px-2.5">
-                          Setting
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </aside>
+
+                {list.length > 0 ? (
+                  <aside className="grid grid-cols-4 text-white gap-4 w-full mt-5">
+                    {list.map((item: any) => (
+                      <div key={item["series.id"]} className="w-56">
+                        <Card
+                          key={item["series.id"]}
+                          title={item["series.title"]}
+                          images={item.images}
+                          type={item["series.type"]}
+                          total_episodes={item["series.total_episodes"]}
+                          status={item["status"]}
+                        />
+                        {account.get("idUser") === user.id && (
+                          <button
+                            onClick={() => setMenu({ show: true, ...item })}
+                            className="w-full mt-2 font-bold rounded-md text-white bg-secondColor hover:bg-secondColorBrighter py-1.5 px-2.5"
+                          >
+                            Setting
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </aside>
+                ) : (
+                  <aside className="text-white flex flex-col justify-center items-center h-[20rem] font-bold text-2xl gap-y-7">
+                    <MdOutlineAddToQueue size={100} />
+                    <p>Wanna make a list? Go add some films now</p>
+                  </aside>
+                )}
               </div>
             </aside>
           </section>
         </main>
       ) : (
-        <main className="h-screen flex justify-center items-center">
+        <main className="flex justify-center items-center">
           <h1 className="font-bold text-white text-2xl">
             This account doesn't exist
           </h1>

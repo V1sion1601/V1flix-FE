@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IImages } from "../../interface";
 import { Form, Select } from "../../components/Form/Form";
 import axios from "axios";
@@ -9,6 +9,29 @@ const UserFilmSetting = ({ setMenu, title, images, status, id }: any) => {
   const bannerUrl = images.filter(
     (image: IImages) => image.type === "banner"
   )[0]?.name;
+  const [userStatus, setUserStatus] = useState("");
+  console.log(userStatus);
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchData = async () => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_USER_URL}/series/get-list/${account.get(
+          "idUser"
+        )}/${id}`,
+        {
+          signal: controller.signal,
+        }
+      );
+
+      if (response.data.status === "succeed") {
+        setUserStatus(response.data.userStatus);
+      }
+    };
+    fetchData();
+    return () => {
+      controller.abort();
+    };
+  }, [id]);
 
   const handleSubmit = async (data: any) => {
     const response = await axios.post(
@@ -26,6 +49,10 @@ const UserFilmSetting = ({ setMenu, title, images, status, id }: any) => {
     } else {
       alert("Fail to add");
     }
+  };
+
+  const updateStatus = async (data: any) => {
+    console.log("Test update");
   };
 
   return (
@@ -57,9 +84,18 @@ const UserFilmSetting = ({ setMenu, title, images, status, id }: any) => {
             </div>
             <header className="flex flex-col justify-between mt-20 gap-y-2 basis-5/6">
               <h1 className="font-bold text-2xl">{title}</h1>
-              <span>{`Status: ${status}`}</span>
+              <div>
+                <span>User Status: </span>
+                <span className="font-bold text-secondColor">{`${userStatus}`}</span>
+              </div>
+              <div>
+                <span>Film Status: </span>
+                <span className="font-bold text-secondColor">{`${status}`}</span>
+              </div>
               <div className="flex flex-col gap-2">
-                <Form onSubmit={handleSubmit}>
+                <Form
+                  onSubmit={userStatus === "" ? handleSubmit : updateStatus}
+                >
                   <Select
                     name="listStatus"
                     options={["Completed", "Plan to watch", "Dropped"]}
@@ -70,7 +106,7 @@ const UserFilmSetting = ({ setMenu, title, images, status, id }: any) => {
                     type="submit"
                     className="bg-secondColor hover:bg-secondColorBrighter p-2 rounded-md"
                   >
-                    Add to library
+                    {userStatus === "" ? "Add to library" : "Update status"}
                   </button>
                 </Form>
               </div>

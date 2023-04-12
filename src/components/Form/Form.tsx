@@ -86,16 +86,25 @@ export const Select: React.FC<Select | any> = ({
   name,
   rules,
   className,
+  defaultValue,
   optionsClass,
   ...rest
 }) => {
   return (
-    <select className={className} {...register(name, rules)} {...rest}>
-      {options.map((value: any) => (
-        <option className={optionsClass} value={value}>
-          {value}
-        </option>
-      ))}
-    </select>
+    <>
+      {console.log(defaultValue)}
+      <select
+        defaultValue={defaultValue}
+        className={className}
+        {...register(name, rules)}
+        {...rest}
+      >
+        {options.map((value: any) => (
+          <option className={optionsClass} value={value}>
+            {value}
+          </option>
+        ))}
+      </select>
+    </>
   );
 };
