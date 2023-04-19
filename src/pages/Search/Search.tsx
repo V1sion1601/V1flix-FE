@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 //lib
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -13,11 +13,14 @@ import TopAnimeCard from "../../components/Card/TopAnimeCard";
 let render = 0;
 const CSS =
   "bg-opacity-40 bg-gray-500 p-2 rounded-md lg:w-fit focus:outline-none focus:bg-gray-700";
+//context
+import { GenersContext } from "../../context/GenersContext";
 const Search: React.FC = () => {
   const { keyword } = useParams();
   const [filter, setFilter] = useState<string | undefined>(keyword);
   const { register, handleSubmit } = useForm();
-
+  const { listGeners } = useContext(GenersContext);
+  console.log(listGeners);
   const [result, setResult] = useState<ISeries[]>([]);
   // console.log("re-render: " + render++);
 
@@ -45,6 +48,7 @@ const Search: React.FC = () => {
     console.log("test");
     document.title = `Result: ${queries.filter}` || "Search";
     setFilter(queries.filter);
+    console.log(queries);
     const dataFiltered = Object.keys(queries)
       .filter((key) => queries[key].includes("Select"))
       .reduce((object: any, key: any) => {
@@ -56,6 +60,7 @@ const Search: React.FC = () => {
     //write get query here
     //data phía sau sẽ đè data phía trước
     const queriesData = { ...queries, ...dataFiltered };
+    console.log(queriesData);
 
     const response = await axios.post(
       `${import.meta.env.VITE_USER_URL}/series/query`,
@@ -86,24 +91,30 @@ const Search: React.FC = () => {
                 className={CSS}
               />
               <div className="lg:flex-none flex gap-2">
-                {filters.map((filter: any) => (
-                  <select
-                    defaultValue={`Select ${filter.category}`}
-                    className={CSS}
-                    key={filter.id}
-                    {...register(filter.category)}
-                  >
-                    <option
-                      value={`Select ${filter.category}`}
-                      disabled
-                      hidden
-                    >{`Select ${filter.category}`}</option>
+                {filters.map((filter: any) => {
+                  console.log(filter.list);
+                  return (
+                    <select
+                      defaultValue={`Select ${filter.category}`}
+                      className={CSS}
+                      key={filter.id}
+                      {...register(filter.category)}
+                    >
+                      <option
+                        value={`Select ${filter.category}`}
+                        disabled
+                        hidden
+                      >{`Select ${filter.category}`}</option>
 
-                    {filter.list.map((data: string) => (
-                      <option key={data} value={data}>{`${data}`}</option>
-                    ))}
-                  </select>
-                ))}
+                      {filter.list.map((data: any, index: number) => (
+                        <option
+                          key={index}
+                          value={data.id}
+                        >{`${data.name}`}</option>
+                      ))}
+                    </select>
+                  );
+                })}
               </div>
               <button
                 type="submit"

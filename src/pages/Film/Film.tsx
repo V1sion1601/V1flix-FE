@@ -1,25 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 //component
 import Info from "./Info";
 import TrendingCard from "./TrendingCard";
 //lib
 import axios from "axios";
 import ReactPlayer from "react-player/youtube";
-//data
-import { Trending } from "../../interface";
-import { listTrending } from "./data";
 //interface
-import { IEpisodes, ISeries } from "../../interface";
+import { IEpisodes } from "../../interface";
 import { handleUrl, slugifyString } from "../../utils/HandleString";
 import { useQuery } from "@tanstack/react-query";
-
+//context
+import { TopTrendingContext } from "../../context/TopTrendingContext";
+import TopAnimeCard from "../../components/Card/TopAnimeCard";
 const Film: React.FC<any> = () => {
   let film, currentEp;
   const [titleName, epNum] = handleUrl(window.location.href.split("?")[1], [
     "title",
     "ep",
   ]);
-
+  const { listTrending } = useContext(TopTrendingContext);
+  console.log(listTrending);
   console.log("re-render film");
   //Will improve/optimize this bunch of code soon
   const { isLoading, error, data, isSuccess } = useQuery({
@@ -52,10 +52,10 @@ const Film: React.FC<any> = () => {
               {currentEp ? `Episode: ${epNum}, ${currentEp?.title}` : null}
             </h1>
           </header>
-          <main aria-label="main" className="lg:flex lg:gap-x-4">
+          <main aria-label="main" className="lg:flex lg:gap-x-16">
             <section
               aria-label="details-film"
-              className="basis-4/5 flex flex-col gap-y-6"
+              className="basis-4/6 flex flex-col gap-y-6"
             >
               <aside aria-label="video">
                 {currentEp ? (
@@ -104,14 +104,14 @@ const Film: React.FC<any> = () => {
                 <Info {...film} />
               </aside>
             </section>
-            <section aria-label="trending" className="basis-1/5 pt-8">
+            <section aria-label="trending" className="basis-2/6 pt-8">
               <h2 className="lg:text-3xl text-4xl mb-5 font-bold">
                 Top Trending
               </h2>
               <ul className="flex gap-3 flex-col">
-                {listTrending.map((trending: Trending, index: number) => (
+                {listTrending.map((trending: any, index: number) => (
                   <li key={index}>
-                    <TrendingCard {...trending} />
+                    <TopAnimeCard {...trending} rank={index + 1} />
                   </li>
                 ))}
               </ul>

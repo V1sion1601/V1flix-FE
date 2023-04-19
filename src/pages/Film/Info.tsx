@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //interfaces
 import { IImages, ISeries } from "../../interface";
 //components
 import UserFilmSetting from "./UserFilmSetting";
 //others
 import { account } from "../../utils/Storage";
+import axios from "axios";
 
 const Info: React.FC<ISeries> = ({
   id,
@@ -18,6 +19,7 @@ const Info: React.FC<ISeries> = ({
   alt_title,
 }) => {
   const [settingMenu, setSettingMenu] = useState<boolean>(false);
+  const [genersList, setGeneresList] = useState<any>([]);
   //add and remove scroll-bar
   if (settingMenu) {
     document.body.classList.add("overflow-hidden");
@@ -25,6 +27,20 @@ const Info: React.FC<ISeries> = ({
   } else {
     document.body.classList.remove("overflow-hidden");
   }
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchData = async () => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_USER_URL}/film/get-geners/${id}`
+      );
+      setGeneresList(response.data.listFilmsGeners);
+    };
+    fetchData();
+    return () => {
+      controller.abort();
+    };
+  }, [id]);
 
   return (
     <>
@@ -37,7 +53,7 @@ const Info: React.FC<ISeries> = ({
           setMenu={setSettingMenu}
         />
       )}
-      <main className="flex lg:w-5/6 w-full gap-x-4 bg-opacityText p-4 rounded-lg">
+      <main className="flex w-full gap-x-4 bg-opacityText p-4 rounded-lg">
         <section aria-label="image" className="basis-1/5">
           <img
             src={
@@ -61,9 +77,7 @@ const Info: React.FC<ISeries> = ({
           </div>
           <h4 className="font-extralight">{alt_title || title}</h4>
 
-          <p className="font-light lg:text-xl text-sm w-full lg:line-clamp-5">
-            {description}
-          </p>
+          <p className="font-light lg:text-xl text-sm w-full ">{description}</p>
 
           <div className="lg:text-base text-sm">
             <ul className="grid lg:grid-cols-2 lg:gap-y-2 grid-cols-1 gap-y-0.5">
@@ -80,6 +94,14 @@ const Info: React.FC<ISeries> = ({
                 <span className="text-secondColor ml-3 font-bold">
                   {total_episodes}
                 </span>
+              </li>
+              <li>
+                Generes:
+                {genersList.map((genere: any, index: number) => (
+                  <span key={index} className="text-secondColor font-bold">
+                    {` ${genere.name}, `}
+                  </span>
+                ))}
               </li>
               <li>
                 Status:

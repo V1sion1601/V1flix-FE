@@ -1,27 +1,30 @@
 import React, { useState, useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 //Components
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineSearch, AiOutlineUser } from "react-icons/ai";
 import { CiDark, CiLight } from "react-icons/ci";
 import { TbMinusVertical } from "react-icons/tb";
 import { GiHamburgerMenu } from "react-icons/gi";
 //Interface
 import { Hover, NavMenu, NavItem } from "./interface";
-import { IReducer } from "../../interface";
 
 //Data
 import { listNavMenu } from "./data";
 import useSearchSeries from "./hook";
 import { ISeries } from "../../interface";
+//storage
+import { account } from "../../utils/Storage";
 //Context
 import { ThemeContext } from "../../context/ThemeContext";
 import { slugifyString } from "../../utils/HandleString";
+
 const MobileHeader: React.FC = () => {
   const [subMenu, setSubMenu] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState<string>(() => {
     return "";
   });
   const [searchbar, setSearchbar] = useState<boolean>(false);
+  const [userMenu, setUserMenu] = useState<boolean>(false);
   const [loading, setLoading] = useState<Hover>(() => {
     console.log("Test loading");
     return { id: "", isLoading: false };
@@ -59,9 +62,49 @@ const MobileHeader: React.FC = () => {
           <div className="cursor-pointer" onClick={() => toggleTheme()}>
             {theme === "dark" ? <CiDark size={15} /> : <CiLight size={15} />}
           </div>
-          <button className="text-sm bg-transparent outline outline-offset-2 outline-outColor py-0.5 rounded-md px-2">
-            Sign-in
-          </button>
+          {!account.get("username") ? (
+            <button className="text-sm bg-transparent outline outline-offset-2 outline-outColor py-0.5 rounded-md px-2">
+              Sign-in
+            </button>
+          ) : (
+            <div
+              onClick={() => setUserMenu(!userMenu)}
+              className="text-left flex justify-center items-center bg-opacity-40 rounded-l-md cursor-pointer"
+            >
+              <AiOutlineUser
+                size={20}
+                className={`${
+                  userMenu ? "text-secondColor " : "text-white "
+                }hover:text-secondColor `}
+              />
+              {userMenu && (
+                <div
+                  aria-label="sub-menu"
+                  className=" pt-5 mr-16 absolute text-white mt-28"
+                >
+                  <ul className="bg-mainColor rounded-md">
+                    <li className="cursor-pointer p-2 hover:bg-secondColor hover:rounded-md truncate ">
+                      <Link
+                        to={`/profile/${account.get("username")}`}
+                        className="max-w-full text-center line-clamp-1"
+                      >
+                        {account.get("username")}
+                      </Link>
+                    </li>
+                    <li
+                      onClick={() => {
+                        account.remove();
+                        window.location.reload();
+                      }}
+                      className="cursor-pointer p-2 hover:bg-secondColor hover:rounded-md"
+                    >
+                      Log-out
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
         </aside>
       </section>
       {searchbar && (

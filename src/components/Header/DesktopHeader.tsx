@@ -37,11 +37,11 @@ const DesktopHeader: React.FC = () => {
     <>
       <div className="px-10 flex text-white">
         <section aria-label="Logo" className="py-10 basis-1/6">
-          Your Logo
+          <Link to="/">Your Logo</Link>
         </section>
         <section
           aria-label="functions"
-          className="py-10 px-24 flex flex-row justify-between items-center basis-3/6 font-semibold"
+          className="py-10 px-24 flex flex-row justify-start items-center basis-3/6 font-semibold gap-x-32"
         >
           {listNavMenu.map((item: NavMenu) => (
             <aside key={item.id}>
@@ -71,7 +71,7 @@ const DesktopHeader: React.FC = () => {
                           className="cursor-pointer pl-4 pr-1.5 py-2 hover:bg-secondColor hover:rounded-md"
                           key={sub.id}
                         >
-                          {sub.title}
+                          <NavLink to={sub.url}>{sub.title}</NavLink>
                         </li>
                       ))}
                     </ul>

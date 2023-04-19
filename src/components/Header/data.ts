@@ -1,52 +1,25 @@
 import { NavMenu } from "./interface";
-
+import axios from "axios";
+const fetchGeners = async () => {
+  const response = await axios.get(`${import.meta.env.VITE_USER_URL}/geners`);
+  console.log(response.data.geners);
+  return response.data.geners;
+};
+const genersMenu = await fetchGeners();
 export const listNavMenu: NavMenu[] = [
-  {
-    id: "Nav01",
-    title: "Home",
-    url: "/home",
-    subMenu: [
-      {
-        id: "SubNav01-1",
-        title: "Home",
-        url: "/home/1",
-      },
-      {
-        id: "SubNav01-2",
-        title: "Home 2",
-        url: "/home/1",
-      },
-      {
-        id: "SubNav01-3",
-        title: "Home 3",
-        url: "/home/1",
-      },
-    ],
-  },
   {
     id: "Nav02",
     title: "Genre",
     url: "/home",
-    subMenu: [
-      {
-        id: "SubNav02-1",
-        title: "Genre",
-        url: "/home/1",
-      },
-    ],
+    subMenu: genersMenu.map((gener: any) => {
+      return {
+        id: gener.id,
+        title: gener.name,
+        url: `/genre/${gener.name.toLowerCase()}`,
+      };
+    }),
   },
-  {
-    id: "Nav03",
-    title: "Types",
-    url: "/home",
-    subMenu: [
-      {
-        id: "SubNav03-1",
-        title: "Types",
-        url: "/home/1",
-      },
-    ],
-  },
+
   {
     id: "Nav04",
     title: "Newest",

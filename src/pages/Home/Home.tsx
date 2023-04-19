@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 //lib
 import axios from "axios";
-import { Link } from "react-router-dom";
 //Interface
 import { ISeries } from "../../interface";
 //Components
@@ -13,9 +12,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
-
+import { slugifyString } from "../../utils/HandleString";
+//Context
+import { TopTrendingContext } from "../../context/TopTrendingContext";
 const Home: React.FC = () => {
   const [series, setSeries] = useState<ISeries[]>([]);
+  const { listTrending } = useContext(TopTrendingContext);
+
   useEffect(() => {
     let controller: AbortController | null = new AbortController();
     const fetchData = async () => {
@@ -65,7 +68,7 @@ const Home: React.FC = () => {
                     {banner.description}
                   </p>
                   <a
-                    href={`/watch/${banner.title.toLowerCase()}/ep/1`}
+                    href={`/watch?title=${slugifyString(banner.title)}&ep=1`}
                     className="bg-secondColor text-white hover:bg-opacity-70 lg:px-10 px-5 font-bold lg:py-4 py-2 lg:text-2xl text-base rounded-md flex justify-center items-center gap-x-3"
                   >
                     <FaPlay />
@@ -91,9 +94,9 @@ const Home: React.FC = () => {
           <h1 className="font-bold lg:text-2xl text-4xl mb-5">Top Anime</h1>
           <aside>
             <ul className="flex gap-3 flex-col" role="list">
-              {series
+              {listTrending
                 .sort((a: ISeries, b: ISeries) => b.view - a.view)
-                .map((film: ISeries, index) => (
+                .map((film: ISeries, index: number) => (
                   <li
                     key={film.id}
                     className="rounded-lg [&:nth-child(1)]:border-r-fistAnime [&:nth-child(2)]:border-r-secondAnime [&:nth-child(3)]:border-r-thirdAnime border-r-other border-r-4"

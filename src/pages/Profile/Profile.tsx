@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 //lib
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 //components
 import Avatar from "../../assets/default_avatar.jpg";
 import Banner from "../../assets/default_banner.png";
@@ -10,8 +10,10 @@ import { MdOutlineAddToQueue } from "react-icons/md";
 //localStorage
 import { account } from "../../utils/Storage";
 import UserSetting from "./UserSetting";
+import { navData } from "./data";
 const Profile = () => {
-  const { username } = useParams();
+  const { username, status } = useParams();
+
   const [user, setUser] = useState<any>({});
   const [list, setList] = useState<any>([]);
   const [menu, setMenu] = useState({
@@ -45,7 +47,7 @@ const Profile = () => {
         const responseList = await axios.get(
           `${import.meta.env.VITE_USER_URL}/series/get/${
             response.data.account.id
-          }`,
+          }/${status}`,
           {
             signal: controller.signal,
           }
@@ -58,7 +60,7 @@ const Profile = () => {
     return () => {
       controller.abort();
     };
-  }, [username]);
+  }, [username, status]);
 
   return (
     <>
@@ -70,6 +72,7 @@ const Profile = () => {
           id={menu.seriesId}
           filmStatus={menu["series.status"]}
           setMenu={setMenu}
+          userId={user.id}
         />
       )}
       {user.id ? (
@@ -95,15 +98,22 @@ const Profile = () => {
                 <h1 className="pt-5 text-4xl font-bold">{user.username}</h1>
                 <aside className=" w-full mt-8">
                   <nav className="flex gap-x-5 w-fit bg-mainColor font-bold rounded-sm">
-                    <div className="p-2.5">Plans to Watch</div>
-                    <div className="p-2.5">Paused</div>
-                    <div className="p-2.5">Watching</div>
-                    <div className="p-2.5">Completed</div>
+                    {navData.map((item: any, index: number) => (
+                      <NavLink
+                        to={`/profile/${username}/${item.url}`}
+                        className={`p-2.5 ${
+                          item.type === status && "bg-secondColor"
+                        }`}
+                        key={index}
+                      >
+                        {item.title}
+                      </NavLink>
+                    ))}
                   </nav>
                 </aside>
 
                 {list.length > 0 ? (
-                  <aside className="grid grid-cols-4 text-white gap-4 w-full mt-5">
+                  <aside className="grid lg:grid-cols-5 grid-cols-2 text-white gap-4 w-full mt-5">
                     {list.map((item: any) => (
                       <div key={item["series.id"]} className="w-56">
                         <Card
@@ -128,7 +138,9 @@ const Profile = () => {
                 ) : (
                   <aside className="text-white flex flex-col justify-center items-center h-[20rem] font-bold text-2xl gap-y-7">
                     <MdOutlineAddToQueue size={100} />
-                    <p>Wanna make a list? Go add some films now</p>
+                    {status !== undefined
+                      ? "This section doesn't have any show"
+                      : "Wanna make a list? Go add some films now"}
                   </aside>
                 )}
               </div>
