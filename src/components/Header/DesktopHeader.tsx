@@ -24,7 +24,6 @@ const initState: Hover = {
 };
 let count = 0;
 const DesktopHeader: React.FC = () => {
-  console.log("re-render ", count++);
   const [loading, dispatch] = useReducer<
     (state: Hover, action: IReducer) => any
   >(reducer, initState);
@@ -32,7 +31,7 @@ const DesktopHeader: React.FC = () => {
   const [userMenu, setUserMenu] = useState(false);
   const result = useSearchSeries(searchInput);
   const { theme, toggleTheme } = useContext(ThemeContext);
-
+  console.log(listNavMenu);
   return (
     <>
       <div className="px-10 flex text-white">
@@ -66,14 +65,17 @@ const DesktopHeader: React.FC = () => {
                     className="pt-5 absolute text-white"
                   >
                     <ul className="bg-mainColor w-32 -ml-4 rounded-md">
-                      {item.subMenu?.map((sub: NavItem) => (
-                        <li
-                          className="cursor-pointer pl-4 pr-1.5 py-2 hover:bg-secondColor hover:rounded-md"
-                          key={sub.id}
-                        >
-                          <NavLink to={sub.url}>{sub.title}</NavLink>
-                        </li>
-                      ))}
+                      {item.subMenu?.map((sub: NavItem) => {
+                        console.log(sub);
+                        return (
+                          <li
+                            className="cursor-pointer pl-4 pr-1.5 py-2 hover:bg-secondColor hover:rounded-md"
+                            key={sub.id}
+                          >
+                            <NavLink to={sub.url}>{sub.title}</NavLink>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 )}
