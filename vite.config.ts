@@ -5,4 +5,7 @@ import mkcert from "vite-plugin-mkcert";
 export default defineConfig({
   server: { https: true },
   plugins: [react(), mkcert()],
+  build: {
+    target: "esnext",
+  },
 });
