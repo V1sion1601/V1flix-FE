@@ -2,7 +2,8 @@ import { NavMenu } from "./interface";
 import axios from "axios";
 const fetchGeners: any = async () => {
   const response = await axios.get(`${import.meta.env.VITE_USER_URL}/geners`);
-  return response;
+
+  return response.data.geners;
 };
 const genersMenu = await fetchGeners();
 export const listNavMenu: NavMenu[] = [
