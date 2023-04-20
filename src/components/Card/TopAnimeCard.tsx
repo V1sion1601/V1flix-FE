@@ -16,7 +16,7 @@ const TopAnimeCard: React.FC<ISeries | any> = ({
     ?.name;
 
   const myImage = new CloudinaryImage(`/anime/card/${imageName}`, {
-    cloudName: "dgcvss8u6",
+    cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
   });
   return (
     <div className="flex flex-row w-full h-auto gap-3 bg-mainColor bg-opacity-50">

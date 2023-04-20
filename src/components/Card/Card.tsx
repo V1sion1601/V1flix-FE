@@ -4,9 +4,10 @@ import { CiPlay1 } from "react-icons/ci";
 import Details from "./Details";
 import { IImages, ISeries } from "../../interface";
 import { slugifyString } from "../../utils/HandleString";
-import { fill } from "@cloudinary/url-gen/actions/resize";
+
 import { CloudinaryImage } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
+import { image } from "@cloudinary/url-gen/qualifiers/source";
 
 const Card: React.FC<ISeries | any> = ({
   id,
@@ -19,9 +20,9 @@ const Card: React.FC<ISeries | any> = ({
   const imageName = images.filter(
     (image: IImages) => image.type === "thumbnail"
   )[0]?.name;
-
+  console.log(imageName);
   const myImage = new CloudinaryImage(`/anime/thumb/${imageName}`, {
-    cloudName: "dgcvss8u6",
+    cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
   });
 
   return (

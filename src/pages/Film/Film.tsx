@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 //component
 import Info from "./Info";
-import TrendingCard from "./TrendingCard";
 //lib
 import axios from "axios";
-import ReactPlayer from "react-player/youtube";
 //interface
 import { IEpisodes } from "../../interface";
 import { handleUrl, slugifyString } from "../../utils/HandleString";
@@ -12,14 +10,19 @@ import { useQuery } from "@tanstack/react-query";
 //context
 import { TopTrendingContext } from "../../context/TopTrendingContext";
 import TopAnimeCard from "../../components/Card/TopAnimeCard";
+//libs
+import { CloudinaryVideo } from "@cloudinary/url-gen";
+import { AdvancedVideo } from "@cloudinary/react";
 const Film: React.FC<any> = () => {
-  let film, currentEp;
+  let film,
+    currentEp: any = {},
+    video: any = {};
   const [titleName, epNum] = handleUrl(window.location.href.split("?")[1], [
     "title",
     "ep",
   ]);
   const { listTrending } = useContext(TopTrendingContext);
-  console.log(listTrending);
+
   console.log("re-render film");
   //Will improve/optimize this bunch of code soon
   const { isLoading, error, data, isSuccess } = useQuery({
@@ -32,13 +35,21 @@ const Film: React.FC<any> = () => {
     staleTime: Infinity,
   });
   if (isSuccess) {
-    console.log(data);
     film = data.data.series;
     const { episodes, title } = data.data.series;
     currentEp =
       episodes.length > 0 &&
       episodes.find((episode: IEpisodes) => episode.ep_num === parseInt(epNum));
+
     document.title = `${title} - ${epNum}`;
+    //differentiate cloudinary and google drive.
+    if (currentEp)
+      if (currentEp.source.includes(`${titleName}_ep${epNum}`)) {
+        video = new CloudinaryVideo(`anime/films/${currentEp.source}`, {
+          cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
+        });
+        console.log(video);
+      }
   }
 
   return (
@@ -61,11 +72,20 @@ const Film: React.FC<any> = () => {
                 {currentEp ? (
                   //Will fix the loading
                   <>
-                    <ReactPlayer
-                      url={[currentEp?.source || ""]}
-                      width="100%"
-                      controls={true}
-                    />
+                    {Object.keys(video).length > 0 ? (
+                      <AdvancedVideo cldVid={video} controls />
+                    ) : (
+                      <video width="1280" height="720" controls>
+                        <source
+                          src={`https://www.googleapis.com/drive/v3/files/${
+                            currentEp.source
+                          }?key=${
+                            import.meta.env.VITE_USER_API_GGDRIVE
+                          }&alt=media`}
+                          type="video/mp4"
+                        />
+                      </video>
+                    )}
                   </>
                 ) : (
                   <div>This episode doesn't exist</div>

@@ -5,7 +5,8 @@ const fetchGeners: any = async () => {
 
   return response.data.geners;
 };
-const genersMenu = await fetchGeners();
+
+const genersMenu: any = await fetchGeners();
 export const listNavMenu: NavMenu[] = [
   {
     id: "Nav02",

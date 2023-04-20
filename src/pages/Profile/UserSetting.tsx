@@ -6,6 +6,8 @@ import SettingBoxLayout from "../../layout/SettingBoxLayout";
 import { IImages } from "../../interface";
 import { Select, Form } from "../../components/Form/Form";
 import { account } from "../../utils/Storage";
+import { CloudinaryImage } from "@cloudinary/url-gen";
+import { AdvancedImage } from "@cloudinary/react";
 
 const UserSetting = ({
   setMenu,
@@ -15,9 +17,18 @@ const UserSetting = ({
   id,
   filmStatus,
 }: any) => {
-  const bannerUrl = images.filter(
+  const bannerName = images.filter(
     (image: IImages) => image.type === "banner"
   )[0]?.name;
+  console.log(bannerName);
+  const bannerUrl = `https://res.cloudinary.com/dgcvss8u6/image/upload/anime/banner/${bannerName}`;
+  console.log(bannerUrl);
+
+  const thumbName = images.filter((image: IImages) => image.type === "card")[0]
+    ?.name;
+  const myThumb = new CloudinaryImage(`/anime/card/${thumbName}`, {
+    cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
+  });
 
   const handleSubmit = async (data: any) => {
     const response = await axios.put(
@@ -71,13 +82,10 @@ const UserSetting = ({
       <article className="px-5 -mt-16 mb-5">
         <div className="flex flex-row gap-x-3.5">
           <div aria-label="image" className="w-[11.2rem]">
-            <img
+            <AdvancedImage
+              alt="my-thumb"
               className="rounded-md"
-              src={
-                images.filter((image: IImages) => image.type === "thumbnail")[0]
-                  ?.name
-              }
-              alt="thumb"
+              cldImg={myThumb}
             />
           </div>
           <header className="flex flex-col justify-between mt-20 gap-y-2 basis-5/6 text-white">

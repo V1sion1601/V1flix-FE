@@ -17,26 +17,48 @@ import "swiper/css/pagination";
 import { slugifyString } from "../../utils/HandleString";
 //Context
 import { TopTrendingContext } from "../../context/TopTrendingContext";
+let rerender = 0;
 const Home: React.FC = () => {
   const [series, setSeries] = useState<ISeries[]>([]);
+  const [totalItem, setTotalItem] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  //Limit Page
+  const limitPage = 2;
   const { listTrending } = useContext(TopTrendingContext);
 
   useEffect(() => {
     let controller: AbortController | null = new AbortController();
     const fetchData = async () => {
       const responseSeries = await axios.get(
-        `${import.meta.env.VITE_USER_URL}/series`,
+        `${
+          import.meta.env.VITE_USER_URL
+        }/series?limitPage=${limitPage}&currentPage=${currentPage}`,
         {
           signal: controller?.signal,
         }
       );
-      setSeries(responseSeries.data.series);
+      if (responseSeries) {
+        setSeries(responseSeries.data.series);
+        setTotalItem(responseSeries.data.count);
+        setCurrentPage((prevValue) => prevValue + 1);
+      }
 
       controller = null;
     };
     fetchData();
     return () => controller?.abort();
   }, []);
+
+  const handleSeeMore = async () => {
+    setCurrentPage((prevValue) => prevValue + 1);
+    const responseSeries = await axios.get(
+      `${
+        import.meta.env.VITE_USER_URL
+      }/series?limitPage=${limitPage}&currentPage=${currentPage}`
+    );
+
+    setSeries([...series, ...responseSeries.data.series]);
+  };
 
   return (
     <>
@@ -54,7 +76,7 @@ const Home: React.FC = () => {
             )[0]?.name;
 
             const myImage = new CloudinaryImage(`/anime/banner/${imageName}`, {
-              cloudName: "dgcvss8u6",
+              cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
             });
             return (
               <SwiperSlide key={banner.id}>
@@ -95,6 +117,16 @@ const Home: React.FC = () => {
             {series.map((film: ISeries | any) => (
               <Card key={film.id} {...film} />
             ))}
+          </aside>
+          <aside className="px-[12rem] my-8">
+            {totalItem !== series.length && (
+              <button
+                className="w-full bg-secondColor font-bold rounded-md py-2"
+                onClick={() => handleSeeMore()}
+              >
+                See More
+              </button>
+            )}
           </aside>
         </section>
         <section className="basis-1/4 lg:mt-5 mt-8">

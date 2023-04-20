@@ -47,7 +47,7 @@ const Info: React.FC<ISeries> = ({
     ?.name;
 
   const myImage = new CloudinaryImage(`/anime/card/${imageName}`, {
-    cloudName: "dgcvss8u6",
+    cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
   });
   return (
     <>
