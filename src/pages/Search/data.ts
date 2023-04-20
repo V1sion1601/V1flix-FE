@@ -1,21 +1,16 @@
 import axios from "axios";
 
-const fetchGeners: any = () => {
-  let data: any = [];
+const fetchGeners: any = async () => {
+  const response = await axios.get(`${import.meta.env.VITE_USER_URL}/geners`);
 
-  axios.get(`${import.meta.env.VITE_USER_URL}/geners`).then((response) => {
-    console.log(response.data.geners);
-    data = response.data.geners;
-    return response.data.geners;
-  });
-  return data;
+  return response.data.geners;
 };
-
+const genersMenu = await fetchGeners();
 export const filters: any = [
   {
     id: 1,
     category: "genre",
-    list: fetchGeners(),
+    list: genersMenu,
   },
   {
     id: 2,

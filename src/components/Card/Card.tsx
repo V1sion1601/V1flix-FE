@@ -4,6 +4,10 @@ import { CiPlay1 } from "react-icons/ci";
 import Details from "./Details";
 import { IImages, ISeries } from "../../interface";
 import { slugifyString } from "../../utils/HandleString";
+import { fill } from "@cloudinary/url-gen/actions/resize";
+import { CloudinaryImage } from "@cloudinary/url-gen";
+import { AdvancedImage } from "@cloudinary/react";
+
 const Card: React.FC<ISeries | any> = ({
   id,
   title,
@@ -12,22 +16,21 @@ const Card: React.FC<ISeries | any> = ({
   total_episodes,
   status,
 }) => {
+  const imageName = images.filter(
+    (image: IImages) => image.type === "thumbnail"
+  )[0]?.name;
+
+  const myImage = new CloudinaryImage(`/anime/thumb/${imageName}`, {
+    cloudName: "dgcvss8u6",
+  });
+
   return (
     <div className="flex flex-col w-full">
       <div className="relative group">
         {images.length > 0 && (
           <>
             <a href={`/watch?title=${slugifyString(title)}&ep=1`}>
-              <img
-                className=" group-hover:opacity-60 cursor-pointer w-full rounded-md"
-                src={
-                  images.filter(
-                    (image: IImages) => image.type === "thumbnail"
-                  )[0]?.name
-                }
-                alt={title}
-                loading="lazy"
-              />
+              <AdvancedImage cldImg={myImage} />
             </a>
           </>
         )}

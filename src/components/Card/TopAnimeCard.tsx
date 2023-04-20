@@ -1,7 +1,9 @@
 import React from "react";
 import Details from "./Details";
 import { FiEye } from "react-icons/fi";
-import { ISeries } from "../../interface";
+import { IImages, ISeries } from "../../interface";
+import { CloudinaryImage } from "@cloudinary/url-gen";
+import { AdvancedImage } from "@cloudinary/react";
 const TopAnimeCard: React.FC<ISeries | any> = ({
   id,
   title,
@@ -10,6 +12,12 @@ const TopAnimeCard: React.FC<ISeries | any> = ({
   images,
   rank,
 }) => {
+  const imageName = images.filter((image: IImages) => image.type === "card")[0]
+    ?.name;
+
+  const myImage = new CloudinaryImage(`/anime/card/${imageName}`, {
+    cloudName: "dgcvss8u6",
+  });
   return (
     <div className="flex flex-row w-full h-auto gap-3 bg-mainColor bg-opacity-50">
       <div className="basis-1/5 flex justify-center items-center">
@@ -29,11 +37,7 @@ const TopAnimeCard: React.FC<ISeries | any> = ({
       </div>
       <div className="basis-1/5">
         {images.length > 0 && (
-          <img
-            className="h-full"
-            alt={title}
-            src={images.filter((image: any) => image.type === "card")[0]?.name}
-          />
+          <AdvancedImage className="h-full" cldImg={myImage} />
         )}
       </div>
       <div className="flex flex-col basis-3/5  w-full  m-auto space-y-3">

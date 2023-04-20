@@ -6,7 +6,9 @@ import UserFilmSetting from "./UserFilmSetting";
 //others
 import { account } from "../../utils/Storage";
 import axios from "axios";
-
+//lib
+import { CloudinaryImage } from "@cloudinary/url-gen";
+import { AdvancedImage } from "@cloudinary/react";
 const Info: React.FC<ISeries> = ({
   id,
   images,
@@ -41,7 +43,12 @@ const Info: React.FC<ISeries> = ({
       controller.abort();
     };
   }, [id]);
+  const imageName = images.filter((image: IImages) => image.type === "card")[0]
+    ?.name;
 
+  const myImage = new CloudinaryImage(`/anime/card/${imageName}`, {
+    cloudName: "dgcvss8u6",
+  });
   return (
     <>
       {settingMenu && (
@@ -55,13 +62,7 @@ const Info: React.FC<ISeries> = ({
       )}
       <main className="flex w-full gap-x-4 bg-opacityText p-4 rounded-lg">
         <section aria-label="image" className="basis-1/5">
-          <img
-            src={
-              images.filter((image: IImages) => image.type === "thumbnail")[0]
-                ?.name
-            }
-            alt={`img-${id}`}
-          />
+          <AdvancedImage cldImg={myImage} alt={`img-${id}`} />
         </section>
         <section aria-label="content" className="basis-4/5 space-y-4 h-full">
           <div className="flex justify-between">

@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 //lib
 import axios from "axios";
+import { CloudinaryImage } from "@cloudinary/url-gen";
+import { AdvancedImage } from "@cloudinary/react";
 //Interface
 import { ISeries } from "../../interface";
 //Components
@@ -46,38 +48,43 @@ const Home: React.FC = () => {
           className="h-full w-full mySwiper"
         >
           {/* //Will fix soon */}
-          {series.map((banner: ISeries) => (
-            <SwiperSlide key={banner.id}>
-              <div className="lg:flex lg:flex-row-reverse lg:px-10 lg:gap-x-5 px-4 flex-none">
-                {banner.images.length > 0 && (
-                  <img
-                    src={
-                      banner.images.filter(
-                        (image) => image.type === "banner"
-                      )[0]?.name
-                    }
-                    className={`lg:static absolute inset-0 h-80 lg:basis-1/2 lg:w-1/2 lg:h-1/2 lg:rounded-3xl lg:shadow-black lg:shadow-sm lg:opacity-100 opacity-60`}
-                  />
-                )}
+          {series.map((banner: ISeries) => {
+            const imageName = banner.images.filter(
+              (image) => image.type === "banner"
+            )[0]?.name;
 
-                <aside className="lg:static lg:basis-1/2 lg:gap-8 lg:w-1/2 w-full relative lg:h-auto h-80 flex flex-col justify-center items-start gap-3">
-                  <h1 className="lg:text-5xl text-white text-2xl font-bold capitalize truncate w-full">
-                    {banner.title}
-                  </h1>
-                  <p className="lg:text-2xl text-sm lg:w-full w-3/4 lg:line-clamp-3 text-white line-clamp-2 font-light lg:text-opacity-60 text-opacity-90">
-                    {banner.description}
-                  </p>
-                  <a
-                    href={`/watch?title=${slugifyString(banner.title)}&ep=1`}
-                    className="bg-secondColor text-white hover:bg-opacity-70 lg:px-10 px-5 font-bold lg:py-4 py-2 lg:text-2xl text-base rounded-md flex justify-center items-center gap-x-3"
-                  >
-                    <FaPlay />
-                    PLAY NOW
-                  </a>
-                </aside>
-              </div>
-            </SwiperSlide>
-          ))}
+            const myImage = new CloudinaryImage(`/anime/banner/${imageName}`, {
+              cloudName: "dgcvss8u6",
+            });
+            return (
+              <SwiperSlide key={banner.id}>
+                <div className="lg:flex lg:flex-row-reverse lg:px-10 lg:gap-x-5 px-4 flex-none">
+                  {banner.images.length > 0 && (
+                    <AdvancedImage
+                      cldImg={myImage}
+                      className={`lg:static absolute inset-0 h-80 lg:basis-1/2 lg:w-1/2 lg:h-1/2 lg:rounded-3xl lg:shadow-black lg:shadow-sm lg:opacity-100 opacity-60`}
+                    />
+                  )}
+
+                  <aside className="lg:static lg:basis-1/2 lg:gap-8 lg:w-1/2 w-full relative lg:h-auto h-80 flex flex-col justify-center items-start gap-3">
+                    <h1 className="lg:text-5xl text-white text-2xl font-bold capitalize truncate w-full">
+                      {banner.title}
+                    </h1>
+                    <p className="lg:text-2xl text-sm lg:w-full w-3/4 lg:line-clamp-3 text-white line-clamp-2 font-light lg:text-opacity-60 text-opacity-90">
+                      {banner.description}
+                    </p>
+                    <a
+                      href={`/watch?title=${slugifyString(banner.title)}&ep=1`}
+                      className="bg-secondColor text-white hover:bg-opacity-70 lg:px-10 px-5 font-bold lg:py-4 py-2 lg:text-2xl text-base rounded-md flex justify-center items-center gap-x-3"
+                    >
+                      <FaPlay />
+                      PLAY NOW
+                    </a>
+                  </aside>
+                </div>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </section>
 
