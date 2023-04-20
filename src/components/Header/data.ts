@@ -12,6 +12,7 @@ export const listNavMenu: NavMenu[] = [
     title: "Genre",
     url: "/home",
     subMenu: genersMenu.map((gener: any) => {
+      console.log(gener);
       return {
         id: gener.id,
         title: gener.name,
