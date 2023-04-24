@@ -3,7 +3,7 @@ export const slugifyString: (field: string) => string = (str: string) => {
     .toLowerCase()
     .trim()
 
-    .replace(/[\s]+/g, "_");
+    .replace(/[/\s]+/g, "_");
 };
 
 export const handleUrl: (url: string, params: string[]) => string[] = (

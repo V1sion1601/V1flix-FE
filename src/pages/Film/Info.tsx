@@ -9,6 +9,9 @@ import axios from "axios";
 //lib
 import { CloudinaryImage } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
+import useCheckImage from "../../hook/useCheckImage";
+import PlaceHolder from "../../assets/placeholder_image.jpg";
+
 const Info: React.FC<ISeries> = ({
   id,
   images,
@@ -21,6 +24,8 @@ const Info: React.FC<ISeries> = ({
   alt_title,
 }) => {
   const [settingMenu, setSettingMenu] = useState<boolean>(false);
+  const [isSeeMore, setSeeMore] = useState<boolean>(true);
+
   const [genersList, setGeneresList] = useState<any>([]);
   //add and remove scroll-bar
   if (settingMenu) {
@@ -49,6 +54,8 @@ const Info: React.FC<ISeries> = ({
   const myImage = new CloudinaryImage(`/anime/card/${imageName}`, {
     cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
   });
+  const imgStatus = useCheckImage(myImage.createCloudinaryURL());
+
   return (
     <>
       {settingMenu && (
@@ -62,7 +69,16 @@ const Info: React.FC<ISeries> = ({
       )}
       <main className="flex w-full gap-x-4 bg-opacityText p-4 rounded-lg">
         <section aria-label="image" className="basis-1/5">
-          <AdvancedImage cldImg={myImage} alt={`img-${id}`} />
+          {imgStatus ? (
+            <AdvancedImage cldImg={myImage} alt={`img-${id}`} />
+          ) : (
+            <img
+              loading="lazy"
+              className="w-[177px] h-[248px]"
+              src={PlaceHolder}
+              alt="placeholder-img"
+            />
+          )}
         </section>
         <section aria-label="content" className="basis-4/5 space-y-4 h-full">
           <div className="flex justify-between">
@@ -78,7 +94,22 @@ const Info: React.FC<ISeries> = ({
           </div>
           <h4 className="font-extralight">{alt_title || title}</h4>
 
-          <p className="font-light lg:text-xl text-sm w-full ">{description}</p>
+          <p
+            className={`${
+              isSeeMore && "line-clamp-4"
+            } font-light lg:text-xl text-sm w-full`}
+          >
+            {description}
+          </p>
+
+          <button
+            onClick={() => {
+              setSeeMore(!isSeeMore);
+            }}
+            className="bg-secondColor hover:bg-secondColorBrighter p-2.5 rounded-lg"
+          >
+            {`${isSeeMore ? "See More" : "See Less"}`}
+          </button>
 
           <div className="lg:text-base text-sm">
             <ul className="grid lg:grid-cols-2 lg:gap-y-2 grid-cols-1 gap-y-0.5">

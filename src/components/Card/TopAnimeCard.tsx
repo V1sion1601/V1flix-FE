@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Details from "./Details";
 import { FiEye } from "react-icons/fi";
 import { IImages, ISeries } from "../../interface";
 import { CloudinaryImage } from "@cloudinary/url-gen";
-import { AdvancedImage } from "@cloudinary/react";
+import { AdvancedImage, placeholder } from "@cloudinary/react";
+
+import PlaceHolder from "../../assets/placeholder_image.jpg";
+//hook
+import useCheckImage from "../../hook/useCheckImage";
+import { slugifyString } from "../../utils/HandleString";
+
 const TopAnimeCard: React.FC<ISeries | any> = ({
   id,
   title,
@@ -14,10 +20,10 @@ const TopAnimeCard: React.FC<ISeries | any> = ({
 }) => {
   const imageName = images.filter((image: IImages) => image.type === "card")[0]
     ?.name;
-
   const myImage = new CloudinaryImage(`/anime/card/${imageName}`, {
     cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
   });
+  const imgStatus = useCheckImage(myImage.createCloudinaryURL());
   return (
     <div className="flex flex-row w-full h-auto gap-3 bg-mainColor bg-opacity-50">
       <div className="basis-1/5 flex justify-center items-center">
@@ -36,13 +42,24 @@ const TopAnimeCard: React.FC<ISeries | any> = ({
         </span>
       </div>
       <div className="basis-1/5">
-        {images.length > 0 && (
-          <AdvancedImage className="h-full" cldImg={myImage} />
+        {imgStatus ? (
+          <AdvancedImage
+            className="h-full"
+            cldImg={myImage}
+            plugins={[placeholder({ mode: "blur" })]}
+          />
+        ) : (
+          <img
+            loading="lazy"
+            className="h-[108px]"
+            src={PlaceHolder}
+            alt="placeholder-img"
+          />
         )}
       </div>
       <div className="flex flex-col basis-3/5  w-full  m-auto space-y-3">
         <h3 className="lg:text-base pt-2 text-lg font-semibold line-clamp-1">
-          {title}
+          <a href={`/watch?title=${slugifyString(title)}&ep=1`}>{title}</a>
         </h3>
         <div className="flex flex-row items-center justify-between pr-5 py-0.5 mb-3 rounded-b-md">
           <Details type={"TV"} status={status} newep={8} />

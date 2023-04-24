@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BaseLayout from "./layout/BaseLayout";
 import { ThemeContext } from "./context/ThemeContext";
 import { account } from "./utils/Storage";
+import DefaultLoading from "./components/Loading/DefaultLoading";
 
 //Pages
 const Error: React.FC = lazy(() => import("./pages/Error/Error"));
@@ -20,13 +21,7 @@ const App: React.FC = () => {
   return (
     <main className={`${theme === "dark" ? " bg-bgColor" : "bg-white"}`}>
       <BrowserRouter>
-        <Suspense
-          fallback={
-            <div className="text-4xl font-bold text-green-400 h-screen flex justify-center items-center">
-              Loading...
-            </div>
-          }
-        >
+        <Suspense fallback={<DefaultLoading msg={"Loading..."} />}>
           <BaseLayout>
             <Routes>
               <Route path="/*" element={<Error />} />

@@ -1,5 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import axios from "axios";
+import { ISeries } from "../interface";
 export const TopTrendingContext = createContext<any>(null);
 
 const TopTrendingProvider = ({ children }: any) => {
@@ -14,7 +15,11 @@ const TopTrendingProvider = ({ children }: any) => {
         }
       );
 
-      setListTrending(response.data.series);
+      setListTrending(
+        response.data.series
+          .sort((a: ISeries, b: ISeries) => b.view - a.view)
+          .slice(0, 5)
+      );
     };
     fetchData();
     return () => {

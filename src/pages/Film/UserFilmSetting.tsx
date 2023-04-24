@@ -4,13 +4,28 @@ import { Form, Select } from "../../components/Form/Form";
 import axios from "axios";
 import { account } from "../../utils/Storage";
 import SettingBoxLayout from "../../layout/SettingBoxLayout";
-
+import { CloudinaryImage } from "@cloudinary/url-gen";
+import useCheckImage from "../../hook/useCheckImage";
+import PlaceHolder from "../../assets/placeholder_image.jpg";
 const UserFilmSetting = ({ setMenu, title, images, status, id }: any) => {
+  const [userStatus, setUserStatus] = useState("");
   //remove body scroll-bar
-  const bannerUrl = images.filter(
+  //find banner
+  const bannerName = images.filter(
     (image: IImages) => image.type === "banner"
   )[0]?.name;
-  const [userStatus, setUserStatus] = useState("");
+  const myBanner = new CloudinaryImage(`/anime/banner/${bannerName}`, {
+    cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
+  });
+  const checkBanner = useCheckImage(myBanner.createCloudinaryURL());
+  //find thumb
+  const thumbName = images.filter(
+    (image: IImages) => image.type === "thumbnail"
+  )[0]?.name;
+  const myThumb = new CloudinaryImage(`/anime/thumb/${thumbName}`, {
+    cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
+  });
+  const checkThumb = useCheckImage(myThumb.createCloudinaryURL());
 
   useEffect(() => {
     const controller = new AbortController();
@@ -77,7 +92,11 @@ const UserFilmSetting = ({ setMenu, title, images, status, id }: any) => {
     <SettingBoxLayout>
       <div
         className="bg-center bg-no-repeat h-40 rounded-md flex justify-end"
-        style={{ backgroundImage: `url(${bannerUrl})` }}
+        style={{
+          backgroundImage: `url(${
+            checkBanner ? myBanner.createCloudinaryURL() : PlaceHolder
+          })`,
+        }}
       >
         <span
           onClick={() => setMenu(false)}
@@ -91,10 +110,9 @@ const UserFilmSetting = ({ setMenu, title, images, status, id }: any) => {
           <div aria-label="image" className="basis-1/6">
             <img
               className="rounded-md"
-              src={
-                images.filter((image: IImages) => image.type === "thumbnail")[0]
-                  ?.name
-              }
+              src={`${
+                checkThumb ? myThumb.createCloudinaryURL() : PlaceHolder
+              }`}
               alt="thumb"
             />
           </div>

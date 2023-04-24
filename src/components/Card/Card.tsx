@@ -1,14 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { CiPlay1 } from "react-icons/ci";
-import Details from "./Details";
-import { IImages, ISeries } from "../../interface";
-import { slugifyString } from "../../utils/HandleString";
-
+//lib
 import { CloudinaryImage } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
-import { image } from "@cloudinary/url-gen/qualifiers/source";
 
+import { CiPlay1 } from "react-icons/ci";
+import Details from "./Details";
+//interface
+import { IImages, ISeries } from "../../interface";
+//utils
+import { slugifyString } from "../../utils/HandleString";
+import PlaceHolder from "../../assets/placeholder_image.jpg";
+import useCheckImage from "../../hook/useCheckImage";
 const Card: React.FC<ISeries | any> = ({
   id,
   title,
@@ -20,10 +22,11 @@ const Card: React.FC<ISeries | any> = ({
   const imageName = images.filter(
     (image: IImages) => image.type === "thumbnail"
   )[0]?.name;
-  console.log(imageName);
   const myImage = new CloudinaryImage(`/anime/thumb/${imageName}`, {
     cloudName: `${import.meta.env.VITE_USER_CLOUDINARY}`,
   });
+
+  const imgStatus = useCheckImage(myImage.createCloudinaryURL());
 
   return (
     <div className="flex flex-col w-full">
@@ -31,7 +34,16 @@ const Card: React.FC<ISeries | any> = ({
         {images.length > 0 && (
           <>
             <a href={`/watch?title=${slugifyString(title)}&ep=1`}>
-              <AdvancedImage cldImg={myImage} />
+              {imgStatus ? (
+                <AdvancedImage cldImg={myImage} />
+              ) : (
+                <img
+                  loading="lazy"
+                  className="h-[348px]"
+                  src={PlaceHolder}
+                  alt="placeholder-img"
+                />
+              )}
             </a>
           </>
         )}
