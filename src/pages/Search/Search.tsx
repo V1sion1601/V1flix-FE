@@ -13,27 +13,24 @@ import TopAnimeCard from "../../components/Card/TopAnimeCard";
 let render = 0;
 const CSS =
   "bg-opacity-40 bg-gray-500 p-2 rounded-md lg:w-fit focus:outline-none focus:bg-gray-700";
-//context
-import { GenersContext } from "../../context/GenersContext";
+
 const Search: React.FC = () => {
   const { keyword } = useParams();
-  const [filter, setFilter] = useState<string | undefined>(keyword);
-  const { register, handleSubmit } = useForm();
-  const { listGeners } = useContext(GenersContext);
-  console.log(listGeners);
+  const [filter, setFilter] = useState<string>(keyword || "");
   const [result, setResult] = useState<ISeries[]>([]);
-  // console.log("re-render: " + render++);
+  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     const controller = new AbortController();
-
     const fetchData = async () => {
-      const response = await axios.get(
-        `${import.meta.env.VITE_USER_URL}/series/find/${keyword}`,
-        {
-          signal: controller.signal,
-        }
-      );
+      let url =
+        filter !== ""
+          ? `${import.meta.env.VITE_USER_URL}/series/find/${keyword}`
+          : `${import.meta.env.VITE_USER_URL}/series`;
+
+      const response = await axios.get(url, {
+        signal: controller.signal,
+      });
 
       setResult(response.data.series);
       console.log(response.data.series);
@@ -78,7 +75,10 @@ const Search: React.FC = () => {
   return (
     <>
       <main className="lg:px-10 px-4 text-white lg:flex ">
-        <section aria-label="result-query" className="lg:basis-2/3 space-y-5 ">
+        <section
+          aria-label="result-query"
+          className="lg:basis-3/4 space-y-5 pr-8"
+        >
           <h1 className="text-3xl font-bold">{`Result for ${filter}`}</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
             <aside
@@ -135,14 +135,14 @@ const Search: React.FC = () => {
               </aside>
             ) : (
               <div className="w-full flex h-44 justify-center items-center">
-                <h1 className="font-bold text-4xl">Can't find the data</h1>
+                <h1 className="font-bold text-4xl">{`Can't find the data for ${keyword}`}</h1>
               </div>
             )}
           </aside>
         </section>
         <section
           aria-label="top-anime-query"
-          className="lg:basis-1/3 space-y-4 lg:mt-0 mt-5"
+          className="lg:basis-1/4 space-y-4 lg:mt-0 mt-5"
         >
           <h1 className="text-3xl font-bold">{`Top anime based on ${filter}`}</h1>
           <ul className="space-y-4">

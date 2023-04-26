@@ -53,12 +53,12 @@ const DesktopHeader: React.FC = () => {
                   dispatch({ type: "unloading", payload: "" })
                 }
               >
-                <NavLink
-                  to={item.url}
+                <a
+                  href={item.url}
                   className="hover:text-secondColor cursor-pointer block"
                 >
                   {item.title}
-                </NavLink>
+                </a>
                 {loading.isLoading === true && loading.id === item.id && (
                   <div
                     aria-label="sub-menu"
@@ -90,13 +90,14 @@ const DesktopHeader: React.FC = () => {
         >
           <aside aria-label="search" className="flex flex-col w-2/3 h-12">
             <aside aria-label="input" className="flex flex-row">
-              <div
+              <a
+                href="/search"
                 className={`${
                   searchInput !== "" && "rounded-l-none"
-                }  flex justify-center items-center bg-opacity-40 bg-gray-500 px-2 py-4 rounded-l-md`}
+                }  flex justify-center items-center bg-opacity-40 bg-gray-500 px-2 py-4 rounded-l-md `}
               >
-                <AiOutlineSearch />
-              </div>
+                <AiOutlineSearch className="hover:text-secondColorBrighter" />
+              </a>
               <input
                 type="text"
                 className={`${

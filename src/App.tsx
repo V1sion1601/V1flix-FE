@@ -15,6 +15,7 @@ const Search: React.FC = lazy(() => import("./pages/Search/Search"));
 const Register: React.FC = lazy(() => import("./pages/Register/Register"));
 const Profile: React.FC = lazy(() => import("./pages/Profile/Profile"));
 const Genre: React.FC = lazy(() => import("./pages/Genre/Genre"));
+const Newest: React.FC = lazy(() => import("./pages/Newest/Newest"));
 
 const App: React.FC = () => {
   const { theme } = useContext(ThemeContext);
@@ -43,6 +44,9 @@ const App: React.FC = () => {
               <Route path="/search/:keyword" element={<Search />} />
               {/* Genre Routes */}
               <Route path="/genre/:name" element={<Genre />} />
+              {/* Newest Routes */}
+
+              <Route path="/newest" element={<Newest />} />
             </Routes>
           </BaseLayout>
         </Suspense>

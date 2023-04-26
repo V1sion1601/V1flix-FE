@@ -24,6 +24,6 @@ export const listNavMenu: NavMenu[] = [
   {
     id: "Nav04",
     title: "Newest",
-    url: "/home",
+    url: "/newest",
   },
 ];

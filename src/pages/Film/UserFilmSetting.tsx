@@ -83,6 +83,8 @@ const UserFilmSetting = ({ setMenu, title, images, status, id }: any) => {
     );
     if (response.data.status === "succeed") {
       alert("Updated successfully");
+
+      setMenu(false);
     } else {
       alert("Updated failed");
     }

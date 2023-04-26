@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import Info from "./Info";
 //lib
 import axios from "axios";
+import { CloudinaryVideo } from "@cloudinary/url-gen";
+import { AdvancedVideo } from "@cloudinary/react";
 //interface
 import { IEpisodes, ISeries } from "../../interface";
 import { handleUrl, slugifyString } from "../../utils/HandleString";
@@ -11,8 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { TopTrendingContext } from "../../context/TopTrendingContext";
 import TopAnimeCard from "../../components/Card/TopAnimeCard";
 //libs
-import { CloudinaryVideo } from "@cloudinary/url-gen";
-import { AdvancedVideo } from "@cloudinary/react";
+
 import DefaultLoading from "../../components/Loading/DefaultLoading";
 import ErrorLoading from "../../components/Error/ErrorLoading";
 
@@ -57,6 +58,8 @@ const Film: React.FC<any> = () => {
 
   if (isLoading)
     return <DefaultLoading msg={"Loading the anime, please wait for it..."} />;
+  if (isError) return <ErrorLoading msg={"Error while getting data!"} />;
+
   return (
     <>
       <section className="px-8 text-white pt-5 space-y-5">
@@ -77,16 +80,19 @@ const Film: React.FC<any> = () => {
                   {Object.keys(video).length > 0 ? (
                     <AdvancedVideo cldVid={video} controls />
                   ) : (
-                    <video width="1280" height="720" controls>
-                      <source
-                        src={`https://www.googleapis.com/drive/v3/files/${
-                          currentEp.source
-                        }?key=${
-                          import.meta.env.VITE_USER_API_GGDRIVE
-                        }&alt=media`}
-                        type="video/mp4"
-                      />
-                    </video>
+                    <section>
+                      <video width="1280" height="720" controls preload="auto">
+                        <source
+                          aria-label="720p"
+                          src={`https://www.googleapis.com/drive/v3/files/${
+                            currentEp.source
+                          }?key=${
+                            import.meta.env.VITE_USER_API_GGDRIVE
+                          }&alt=media`}
+                          type="video/mp4"
+                        />
+                      </video>
+                    </section>
                   )}
                 </>
               ) : (
@@ -98,7 +104,7 @@ const Film: React.FC<any> = () => {
               <h2 className="lg:text-2xl text-4xl mb-5">Episodes</h2>
               <ul className="flex lg:gap-x-5 gap-x-3 gap-y-3 " role="list">
                 {film.episodes.length > 0 ? (
-                  film.episodes.map((episode: IEpisodes, index: number) => (
+                  film.episodes.map((episode: IEpisodes) => (
                     <a
                       key={episode.id}
                       className="rounded-md "
