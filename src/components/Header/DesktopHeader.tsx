@@ -36,7 +36,7 @@ const DesktopHeader: React.FC = () => {
     <>
       <div className="px-10 flex text-white">
         <section aria-label="Logo" className="py-10 basis-1/6">
-          <Link to="/">Your Logo</Link>
+          <a href="/">Your Logo</a>
         </section>
         <section
           aria-label="functions"

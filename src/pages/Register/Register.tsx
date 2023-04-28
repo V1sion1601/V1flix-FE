@@ -53,7 +53,7 @@ const Register = () => {
             </span>
             <h1 className="font-bold text-4xl">Register</h1>
             <span className="hover:cursor-pointer hover:text-secondColor">
-              <Link to="/home">
+              <Link to="/login">
                 <AiOutlineArrowRight size={40} />
               </Link>
             </span>

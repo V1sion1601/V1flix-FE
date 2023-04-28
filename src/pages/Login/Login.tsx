@@ -56,9 +56,9 @@ const Login: React.FC = () => {
             </span>
             <h1 className="font-bold text-4xl">Login</h1>
             <span className="hover:cursor-pointer hover:text-secondColor">
-              <Link to="/home">
+              <a href="/home">
                 <AiOutlineHome size={40} />
-              </Link>
+              </a>
             </span>
           </div>
         </aside>

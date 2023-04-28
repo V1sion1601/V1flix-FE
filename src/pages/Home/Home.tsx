@@ -15,11 +15,13 @@ import Banner from "./Banner";
 import { useQuery } from "@tanstack/react-query";
 import DefaultLoading from "../../components/Loading/DefaultLoading";
 import ErrorLoading from "../../components/Error/ErrorLoading";
-let rerender = 0;
+
 const Home: React.FC = () => {
   const [series, setSeries] = useState<ISeries[]>([]);
   const [totalItem, setTotalItem] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(
+    Math.floor(Math.random() * 2)
+  );
   //Limit Page
   const limitPage = 4;
   const { listTrending } = useContext(TopTrendingContext);
@@ -64,14 +66,16 @@ const Home: React.FC = () => {
 
       <main className="bg-bgColor lg:px-9 px-4 py-2 flex lg:flex-row flex-col text-white">
         <section className="basis-3/4 mt-5 pr-10">
-          <h1 className="font-bold lg:text-2xl text-4xl mb-5">Newly Added</h1>
+          <h1 className="font-bold lg:text-2xl text-4xl mb-5">
+            Your Recommendation
+          </h1>
           <aside className="grid lg:grid-cols-4 grid-cols-2 gap-x-5 gap-y-8">
             {series.map((film: ISeries | any) => (
               <Card key={film.id} {...film} />
             ))}
           </aside>
           <aside className="flex justify-center items-center">
-            {totalItem !== series.length && (
+            {totalItem !== series.length && series.length >= 4 && (
               <button
                 className=" bg-secondColor font-bold rounded-md py-2 px-5 mt-14"
                 onClick={() => handleSeeMore()}
