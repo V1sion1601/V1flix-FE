@@ -20,13 +20,18 @@ const Newest = () => {
   return (
     <main className="h-screen text-white mx-8 mt-2">
       <header className="font-bold text-3xl">Newest Episodes</header>
-      <section className="w-full grid grid-cols-6 gap-4 mt-4">
+      <section className="w-full grid lg:grid-cols-6 grid-cols-3 gap-4 lg:mt-4 mt-7">
         {data.episodes.map((episode: any) => {
           console.log(episode);
           return (
             <div>
               <Card {...episode.series} />
-              <div>{`Episode: ${episode.ep_num}`}</div>
+              <div>
+                Episode:{" "}
+                <span className="text-secondColor font-bold">
+                  {episode.ep_num}
+                </span>
+              </div>
             </div>
           );
         })}

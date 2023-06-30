@@ -46,7 +46,7 @@ const Genre: React.FC = () => {
             .toUpperCase()}${name?.slice(1)}"`}</h1>
         </aside>
       </header>
-      <main className="w-full grid grid-cols-5 gap-x-8 mt-5">
+      <main className="w-full grid lg:grid-cols-6 grid-cols-3 gap-4 lg:mt-4 mt-7">
         {data.films.map((film: any, index: number) => (
           <section className="w-full" key={index}>
             <Card {...film} />

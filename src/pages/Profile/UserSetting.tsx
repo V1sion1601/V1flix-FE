@@ -67,7 +67,7 @@ const UserSetting = ({
   };
 
   return (
-    <SettingBoxLayout>
+    <SettingBoxLayout menu={setMenu}>
       <div
         className="bg-center bg-no-repeat h-40 rounded-md flex justify-end"
         style={{ backgroundImage: `url(${bannerUrl})` }}

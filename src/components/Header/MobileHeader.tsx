@@ -84,12 +84,12 @@ const MobileHeader: React.FC = () => {
                 >
                   <ul className="bg-mainColor rounded-md">
                     <li className="cursor-pointer p-2 hover:bg-secondColor hover:rounded-md truncate ">
-                      <Link
-                        to={`/profile/${account.get("username")}`}
+                      <a
+                        href={`/profile/${account.get("username")}`}
                         className="max-w-full text-center line-clamp-1"
                       >
                         {account.get("username")}
-                      </Link>
+                      </a>
                     </li>
                     <li
                       onClick={() => {
@@ -187,19 +187,16 @@ const MobileHeader: React.FC = () => {
                   } h-auto mb-10`}
                 >
                   <span
-                    // onTouchStart={() => {
-                    //   setLoading({ isLoading: true, id: item.id });
-                    // }}
                     className={`${
                       loading.id === item.id && "text-secondColor"
                     } cursor-pointer  hover:font-bold`}
                   >
-                    <NavLink
-                      to={item.url}
+                    <a
+                      href={item.url}
                       className="hover:text-secondColor cursor-pointer block"
                     >
                       {item.title}
-                    </NavLink>
+                    </a>
                   </span>
 
                   <div aria-label="sub-menu" className="h-auto mt-3">

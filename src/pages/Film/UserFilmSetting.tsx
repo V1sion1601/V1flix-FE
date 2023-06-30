@@ -9,8 +9,7 @@ import useCheckImage from "../../hook/useCheckImage";
 import PlaceHolder from "../../assets/placeholder_image.jpg";
 const UserFilmSetting = ({ setMenu, title, images, status, id }: any) => {
   const [userStatus, setUserStatus] = useState("");
-  //remove body scroll-bar
-  //find banner
+
   const bannerName = images.filter(
     (image: IImages) => image.type === "banner"
   )[0]?.name;
@@ -91,7 +90,7 @@ const UserFilmSetting = ({ setMenu, title, images, status, id }: any) => {
   };
 
   return (
-    <SettingBoxLayout>
+    <SettingBoxLayout menu={setMenu}>
       <div
         className="bg-center bg-no-repeat h-40 rounded-md flex justify-end"
         style={{

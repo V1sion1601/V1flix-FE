@@ -1,7 +1,28 @@
-const SettingBoxLayout = ({ children }: any) => {
+import { useRef } from "react";
+
+const SettingBoxLayout = ({ children, menu }: any) => {
+  const asideRef: any = useRef();
+  const handleMenu = (e: any) => {
+    const aside = asideRef.current.getBoundingClientRect();
+    if (
+      e.clientX < aside.left ||
+      e.clientX > aside.right ||
+      e.clientY < aside.top ||
+      e.clientY > aside.bottom
+    ) {
+      console.log("first");
+      menu(false);
+    } else console.log("second");
+  };
   return (
-    <section className="absolute bg-black bg-opacity-75 inset-0 z-30 flex justify-center items-center ">
-      <aside className="bg-mainColor opacity-100 text-left w-3/5 rounded-md z-50 ">
+    <section
+      onClick={(e) => handleMenu(e)}
+      className="absolute bg-black bg-opacity-75 inset-0 z-30 flex justify-center items-center "
+    >
+      <aside
+        ref={asideRef}
+        className="bg-mainColor opacity-100 text-left w-3/5 rounded-md z-50 "
+      >
         {children}
       </aside>
     </section>

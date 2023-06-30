@@ -76,8 +76,8 @@ const Profile = () => {
         />
       )}
       {user.id ? (
-        <main className="h-screen  py-2 text-white mb-[20rem]">
-          <section aria-label="banner" className="h-[18rem]">
+        <main className="h-screen  py-2 text-white lg:mb-[20rem] mb-[40rem]">
+          <section aria-label="banner" className="lg:h-[18rem] h-[10rem]">
             <div
               style={{
                 backgroundImage: `url(${Banner})`,
@@ -86,7 +86,10 @@ const Profile = () => {
             ></div>
           </section>
           <section aria-label="content" className="h-3/4 lg:px-9 px-4">
-            <aside aria-label="information" className="flex gap-x-4">
+            <aside
+              aria-label="information"
+              className="flex lg:flex-row lg:justify-start lg:items-start flex-col justify-center items-center gap-x-4"
+            >
               <div aria-label="actions">
                 <img
                   src={Avatar}
@@ -95,13 +98,15 @@ const Profile = () => {
                 />
               </div>
               <div aria-label="detail-account" className="w-full">
-                <h1 className="pt-5 text-4xl font-bold">{user.username}</h1>
+                <h1 className="lg:text-left text-center pt-5 text-4xl font-bold">
+                  {user.username}
+                </h1>
                 <aside className=" w-full mt-8">
                   <nav className="flex gap-x-5 w-fit bg-mainColor font-bold rounded-sm">
                     {navData.map((item: any, index: number) => (
                       <NavLink
                         to={`/profile/${username}/${item.url}`}
-                        className={`p-2.5 ${
+                        className={`lg:p-2.5 p-2 w-full flex justify-center items-center text-center ${
                           item.type === status && "bg-secondColor"
                         }`}
                         key={index}

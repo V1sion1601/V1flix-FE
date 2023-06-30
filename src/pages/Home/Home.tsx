@@ -20,7 +20,8 @@ const Home: React.FC = () => {
   const [series, setSeries] = useState<ISeries[]>([]);
   const [totalItem, setTotalItem] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(
-    Math.floor(Math.random() * 2)
+    // Math.floor(Math.random() * 2) cho nhiều series
+    0
   );
   //Limit Page
   const limitPage = 4;
@@ -35,7 +36,7 @@ const Home: React.FC = () => {
       if (responseSeries) {
         setSeries(responseSeries.data.series);
         setTotalItem(responseSeries.data.count);
-        setCurrentPage((prevValue) => prevValue + 1);
+        // setCurrentPage((prevValue) => prevValue + 1);
       }
       return;
     },
@@ -54,7 +55,6 @@ const Home: React.FC = () => {
       }/series?limitPage=${limitPage}&currentPage=${currentPage}`
     );
     setCurrentPage((prevValue) => prevValue + 1);
-
     setSeries([...series, ...responseSeries.data.series]);
   };
 
@@ -64,12 +64,12 @@ const Home: React.FC = () => {
         <Banner />
       </section>
 
-      <main className="bg-bgColor lg:px-9 px-4 py-2 flex lg:flex-row flex-col text-white">
+      <main className="bg-bgColor lg:px-9 px-4 py-2 flex xl:flex-row flex-col text-white">
         <section className="basis-3/4 mt-5 pr-10">
-          <h1 className="font-bold lg:text-2xl text-4xl mb-5">
+          <h1 className="font-bold lg:text-2xl text-xl mb-5">
             Your Recommendation
           </h1>
-          <aside className="grid lg:grid-cols-4 grid-cols-2 gap-x-5 gap-y-8">
+          <aside className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-x-5 gap-y-8">
             {series.map((film: ISeries | any) => (
               <Card key={film.id} {...film} />
             ))}

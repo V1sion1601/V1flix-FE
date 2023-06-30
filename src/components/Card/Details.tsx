@@ -19,7 +19,7 @@ const Details: React.FC<any> = ({ newep, status, type }) => {
           )}
         </div>
       </div>
-      <span>{`${type}`}</span>
+      <span className="xl:text-base lg:text-xl sm:text-2xl">{`${type}`}</span>
     </>
   );
 };

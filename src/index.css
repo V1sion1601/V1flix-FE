@@ -63,6 +63,28 @@ body {
   }
 }
 
+@media only screen and (max-width: 1000px) {
+  /* For tablets: */
+  .swiper-pagination {
+    padding-left: 0.5rem;
+  }
+  .swiper-pagination-bullet {
+    width: 1.2rem !important;
+    height: 1.2rem !important;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  /* For tablets: */
+  .swiper-pagination {
+    padding-left: 0.8rem;
+  }
+  .swiper-pagination-bullet {
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+}
+
 /* Handle animation for login and it's messed up with react-hook-form*/
 input[type="text"]:valid ~ span,
 input[type="text"]:focus ~ span,
