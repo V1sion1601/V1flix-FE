@@ -57,7 +57,7 @@ const TopAnimeCard: React.FC<ISeries | any> = ({
           />
         )}
       </div>
-      <div className="flex flex-col basis-3/5  w-full  m-auto space-y-3 lg:-mx-12">
+      <div className="flex flex-col basis-3/5  w-full  m-auto space-y-3 xl:mx-0 lg:-mx-12 mx-0">
         <h3 className="xl:text-base lg:text-3xl sm:text-2xl pt-2 text-lg font-semibold line-clamp-1">
           <a href={`/watch?title=${slugifyString(title)}&ep=1`}>{title}</a>
         </h3>
