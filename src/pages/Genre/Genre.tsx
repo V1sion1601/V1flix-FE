@@ -41,12 +41,12 @@ const Genre: React.FC = () => {
     <section className="h-screen px-8 text-white">
       <header>
         <aside aria-label="header">
-          <h1 className="font-bold text-3xl">{`List film for "${name
+          <h1 className="font-bold xl:text-3xl lg:text-2xl text-xl">{`List film for "${name
             ?.charAt(0)
             .toUpperCase()}${name?.slice(1)}"`}</h1>
         </aside>
       </header>
-      <main className="w-full grid lg:grid-cols-6 grid-cols-3 gap-4 lg:mt-4 mt-7">
+      <main className="w-full grid xl:grid-cols-6 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 lg:mt-4 mt-7">
         {data.films.map((film: any, index: number) => (
           <section className="w-full" key={index}>
             <Card {...film} />

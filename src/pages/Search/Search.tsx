@@ -74,10 +74,10 @@ const Search: React.FC = () => {
 
   return (
     <>
-      <main className="lg:px-10 px-4 text-white lg:flex ">
+      <main className="xl:px-10 px-4 text-white xl:flex xl:flex-row lg:space-y-8">
         <section
           aria-label="result-query"
-          className="lg:basis-3/4 space-y-5 pr-8"
+          className="xl:basis-3/4 space-y-5 pr-8"
         >
           <h1 className="text-3xl font-bold">{`Result for ${filter}`}</h1>
           <form onSubmit={handleSubmit(onSubmit)}>

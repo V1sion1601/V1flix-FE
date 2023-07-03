@@ -17,11 +17,11 @@ const SettingBoxLayout = ({ children, menu }: any) => {
   return (
     <section
       onClick={(e) => handleMenu(e)}
-      className="absolute bg-black bg-opacity-75 inset-0 z-30 flex justify-center items-center "
+      className="absolute bg-black bg-opacity-75 inset-0 z-30 flex justify-center sm:items-center items-start"
     >
       <aside
         ref={asideRef}
-        className="bg-mainColor opacity-100 text-left w-3/5 rounded-md z-50 "
+        className="bg-mainColor opacity-100 text-left lg:w-3/5 sm:w-11/12 w-full gap-4 rounded-md z-50 sm:h-auto h-full"
       >
         {children}
       </aside>

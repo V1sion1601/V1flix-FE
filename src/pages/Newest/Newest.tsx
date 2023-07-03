@@ -19,8 +19,8 @@ const Newest = () => {
   console.log(data);
   return (
     <main className="h-screen text-white mx-8 mt-2">
-      <header className="font-bold text-3xl">Newest Episodes</header>
-      <section className="w-full grid lg:grid-cols-6 grid-cols-3 gap-4 lg:mt-4 mt-7">
+      <header className="font-bold  xl:text-3xl lg:text-2xl text-xl">Newest Episodes</header>
+      <section className="w-full grid xl:grid-cols-6 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 lg:mt-4 mt-7">
         {data.episodes.map((episode: any) => {
           console.log(episode);
           return (

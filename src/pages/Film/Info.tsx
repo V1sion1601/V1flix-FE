@@ -67,10 +67,10 @@ const Info: React.FC<ISeries> = ({
           setMenu={setSettingMenu}
         />
       )}
-      <main className="flex w-full gap-x-4 bg-opacityText p-4 rounded-lg">
-        <section aria-label="image" className="basis-1/5">
+      <main className="flex lg:flex-row md:flex-row flex-col w-full gap-x-4 bg-opacityText p-4 rounded-lg">
+        <section aria-label="image" className="basis-1/5 lg:my-5 ">
           {imgStatus ? (
-            <AdvancedImage cldImg={myImage} alt={`img-${id}`} />
+            <AdvancedImage cldImg={myImage} alt={`img-${id}`} className="w-full lg:h-full h-[200px] object-cover" />
           ) : (
             <img
               loading="lazy"
@@ -80,7 +80,7 @@ const Info: React.FC<ISeries> = ({
             />
           )}
         </section>
-        <section aria-label="content" className="basis-4/5 space-y-4 h-full">
+        <section aria-label="content" className="basis-4/5 space-y-4 h-full xl:mt-0 mt-5">
           <div className="flex justify-between">
             <h3 className="lg:text-4xl text-xl font-bold">{title}</h3>
             {account.get("username") && (
@@ -102,17 +102,19 @@ const Info: React.FC<ISeries> = ({
             {description}
           </p>
 
-          <button
-            onClick={() => {
-              setSeeMore(!isSeeMore);
-            }}
-            className="bg-secondColor hover:bg-secondColorBrighter p-2.5 rounded-lg"
-          >
-            {`${isSeeMore ? "See More" : "See Less"}`}
-          </button>
+          <div className="flex sm:justify-start sm:items-start justify-center items-center">
+            <button
+              onClick={() => {
+                setSeeMore(!isSeeMore);
+              }}
+              className="bg-secondColor hover:bg-secondColorBrighter p-2.5 rounded-lg"
+            >
+              {`${isSeeMore ? "See More" : "See Less"}`}
+            </button>
+          </div>
 
           <div className="lg:text-base text-sm">
-            <ul className="grid lg:grid-cols-2 lg:gap-y-2 grid-cols-1 gap-y-0.5">
+            <ul className="grid grid-cols-2 lg:gap-y-2 gap-y-0.5">
               <li>
                 Type:
                 <span className="text-secondColor ml-3 font-bold">{type}</span>
@@ -131,7 +133,7 @@ const Info: React.FC<ISeries> = ({
                 Generes:
                 {genersList.map((genere: any, index: number) => (
                   <span key={index} className="text-secondColor font-bold">
-                    {` ${genere.name}, `}
+                    {` ${genere.name}${index === genersList.length - 1 ? "" : ", "} `}
                   </span>
                 ))}
               </li>

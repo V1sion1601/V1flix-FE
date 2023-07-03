@@ -68,10 +68,10 @@ const Film: React.FC<any> = () => {
             {currentEp ? `Episode: ${epNum}, ${currentEp?.title}` : null}
           </h1>
         </header>
-        <main aria-label="main" className="lg:flex lg:gap-x-16">
+        <main aria-label="main" className="xl:flex xl:gap-x-16">
           <section
             aria-label="details-film"
-            className="basis-4/6 flex flex-col gap-y-6"
+            className="lg:basis-4/6 flex flex-col gap-y-6"
           >
             <aside aria-label="video">
               {currentEp ? (
@@ -81,7 +81,7 @@ const Film: React.FC<any> = () => {
                     <AdvancedVideo cldVid={video} controls />
                   ) : (
                     <section>
-                      <video width="1280" height="720" controls preload="auto">
+                      <video width="1280" height="720" controls preload="auto" controlsList="nodownload">
                         <source
                           aria-label="720p"
                           src={`https://www.googleapis.com/drive/v3/files/${

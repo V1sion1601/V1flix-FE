@@ -67,7 +67,7 @@ const Home: React.FC = () => {
       <main className="bg-bgColor lg:px-9 px-4 py-2 flex xl:flex-row flex-col text-white">
         <section className="basis-3/4 mt-5 pr-10">
           <h1 className="font-bold lg:text-2xl text-xl mb-5">
-            Your Recommendation
+            Recommendations
           </h1>
           <aside className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-x-5 gap-y-8">
             {series.map((film: ISeries | any) => (

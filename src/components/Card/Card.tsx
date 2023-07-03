@@ -80,7 +80,7 @@ const Card: React.FC<ISeries | any> = ({
           </>
         )}
 
-        <div className="absolute top-1/2 lg:left-1/3 md:left-1/4 left-[5.5rem] group-hover:translate-x-4 group-hover:duration-1000 opacity-0  group-hover:opacity-100 group-hover:cursor-pointer">
+        <div className="absolute top-1/2 lg:left-1/3 md:left-1/4 sm:left-[4.5rem] left-[75px] group-hover:translate-x-4 group-hover:duration-1000 opacity-0  group-hover:opacity-100 group-hover:cursor-pointer">
           <CiPlay1 fontSize={50} />
         </div>
       </div>

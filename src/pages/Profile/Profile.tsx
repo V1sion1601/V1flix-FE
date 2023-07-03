@@ -102,11 +102,11 @@ const Profile = () => {
                   {user.username}
                 </h1>
                 <aside className=" w-full mt-8">
-                  <nav className="flex gap-x-5 w-fit bg-mainColor font-bold rounded-sm">
+                  <nav className="flex md:gap-x-5 gap-x-2 lg:w-fit w-full bg-mainColor font-bold rounded-sm">
                     {navData.map((item: any, index: number) => (
                       <NavLink
                         to={`/profile/${username}/${item.url}`}
-                        className={`lg:p-2.5 p-2 w-full flex justify-center items-center text-center ${
+                        className={`lg:p-2.5 sm:p-2 p-1 w-full flex justify-center items-center text-center ${
                           item.type === status && "bg-secondColor"
                         }`}
                         key={index}
@@ -118,9 +118,9 @@ const Profile = () => {
                 </aside>
 
                 {list.length > 0 ? (
-                  <aside className="grid lg:grid-cols-5 grid-cols-2 text-white gap-4 w-full mt-5">
+                  <section className="grid xl:grid-cols-5 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-5 text-white mt-5">
                     {list.map((item: any) => (
-                      <div key={item["series.id"]} className="w-56">
+                      <div key={item["series.id"]}>
                         <Card
                           key={item["series.id"]}
                           title={item["series.title"]}
@@ -139,7 +139,7 @@ const Profile = () => {
                         )}
                       </div>
                     ))}
-                  </aside>
+                  </section>
                 ) : (
                   <aside className="text-white flex flex-col justify-center items-center h-[20rem] font-bold text-2xl gap-y-7">
                     <MdOutlineAddToQueue size={100} />

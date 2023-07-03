@@ -51,7 +51,7 @@ const MobileHeader: React.FC = () => {
         </aside>
         <aside className="basis-2/3 flex justify-end items-center gap-4">
           <AiOutlineSearch
-            className={`${searchbar && "text-secondColor"}`}
+            className={`${searchbar && "text-secondColor"} cursor-pointer`}
             onClick={() => {
               setSearchbar(!searchbar);
               setSubMenu(false);

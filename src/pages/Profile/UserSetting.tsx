@@ -8,6 +8,7 @@ import { Select, Form } from "../../components/Form/Form";
 import { account } from "../../utils/Storage";
 import { CloudinaryImage } from "@cloudinary/url-gen";
 import { AdvancedImage } from "@cloudinary/react";
+import useWindowDimensions from "../../hook/useWindowDimensions";
 
 const UserSetting = ({
   setMenu,
@@ -17,6 +18,7 @@ const UserSetting = ({
   id,
   filmStatus,
 }: any) => {
+  const { width } = useWindowDimensions();
   const bannerName = images.filter(
     (image: IImages) => image.type === "banner"
   )[0]?.name;
@@ -69,7 +71,7 @@ const UserSetting = ({
   return (
     <SettingBoxLayout menu={setMenu}>
       <div
-        className="bg-center bg-no-repeat h-40 rounded-md flex justify-end"
+        className="sm:bg-center bg-cover bg-no-repeat sm:h-40 h-60 rounded-md flex justify-end "
         style={{ backgroundImage: `url(${bannerUrl})` }}
       >
         <span
@@ -79,25 +81,30 @@ const UserSetting = ({
           X
         </span>
       </div>
-      <article className="px-5 -mt-16 mb-5">
-        <div className="flex flex-row gap-x-3.5">
-          <div aria-label="image" className="w-[11.2rem]">
+      <article className="px-5 sm:-mt-16 -mt-32 mb-5">
+        <div className="flex sm:flex-row flex-col gap-x-3.5">
+          <div
+            aria-label="image"
+            className="sm:w-[11.2rem] w-full flex sm:justify-start justify-center "
+          >
             <AdvancedImage
               alt="my-thumb"
-              className="rounded-md"
+              className="rounded-md sm:h-full h-[15rem]"
               cldImg={myThumb}
             />
           </div>
-          <header className="flex flex-col justify-between mt-20 gap-y-2 basis-5/6 text-white">
-            <div className="flex justify-between">
+          <header className="flex flex-col justify-between sm:mt-20 mt-5 gap-y-2 basis-5/6 text-white sm:text-left text-center">
+            <div className="flex sm:flex-row flex-col sm:justify-between justify-center items-center">
               <h1 className="font-bold text-2xl ">{title}</h1>
-              <button
-                onClick={handleDelete}
-                type="submit"
-                className="bg-red-600 hover:bg-red-500 px-3.5 py-2 rounded-md font-bold"
-              >
-                Delete
-              </button>
+              {width >= 640 && (
+                <button
+                  onClick={handleDelete}
+                  type="submit"
+                  className="bg-red-600 hover:bg-red-500 px-3.5 py-2 rounded-md font-bold w-fit"
+                >
+                  Delete
+                </button>
+              )}
             </div>
             <div>
               <span>User Status: </span>
@@ -109,22 +116,32 @@ const UserSetting = ({
                 {`${filmStatus.charAt(0).toUpperCase()}${filmStatus.substr(1)}`}
               </span>
             </div>
-            <div className="flex flex-col gap-2">
+
+            <div className="flex sm:flex-row flex-col gap-2 sm:justify-start justify-center sm:items-start items-center">
               <Form onSubmit={handleSubmit}>
                 <Select
                   name="listStatus"
                   options={["Completed", "Plan to watch", "Dropped"]}
-                  className="p-2 mr-1.5 rounded-md text-black"
+                  className="p-2 mr-1.5 rounded-md text-black sm:basis-0 basis-1/2"
                   optionsClass="text-black"
                   defaultValue={status}
                 />
                 <button
                   type="submit"
-                  className="bg-secondColor hover:bg-secondColorBrighter p-2 rounded-md"
+                  className="bg-secondColor hover:bg-secondColorBrighter p-2 rounded-md "
                 >
                   Edit this item
                 </button>
               </Form>
+              {width < 640 && (
+                <button
+                  onClick={handleDelete}
+                  type="submit"
+                  className="bg-red-600 hover:bg-red-500 px-8 py-2 rounded-md font-bold w-fit"
+                >
+                  Delete
+                </button>
+              )}
             </div>
           </header>
         </div>
